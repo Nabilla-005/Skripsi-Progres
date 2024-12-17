@@ -38,4 +38,8 @@ class mahasiswa extends Model
     return $this->hasMany(PengajuanJudul::class, 'id_mahasiswa');
 }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'email', 'email');
+    }
 }

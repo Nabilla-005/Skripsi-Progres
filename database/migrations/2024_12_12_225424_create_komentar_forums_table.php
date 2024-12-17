@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_forum'); 
             $table->foreign('id_forum')->references('id_forum')->on('forum_diskusis')->onDelete('cascade');
             $table->unsignedBigInteger('id_user'); 
-            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->text('isi'); // Kolom isi untuk menyimpan isi komentar
             $table->timestamps(); // Kolom created_at dan updated_at
         });

@@ -1,6 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use \App\Http\Controllers\MahasiswaController;
+use \App\Http\Controllers\DosenController;
+use \App\Http\Controllers\JadwalKosongController;
+use \App\Http\Controllers\JadwalKosongLihatController;
+use \App\Http\Controllers\PengajuanController;
+use \App\Http\Controllers\LihatStatusJudulController;
+
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\Feedback_dan_PenilaianController;
@@ -13,11 +21,76 @@ use App\Http\Controllers\Manajemen_Skripsi_MahasiswaController;
 use App\Http\Controllers\Statistik_Dan_LaporanController;
 use App\Http\Controllers\KomentarForumController;
 use App\Http\Controllers\SettingsController;
+use \Illuminate\Auth\Middleware\Authenticate;
+
+use App\Http\Controllers\PengajuanJudulController;
+use App\Http\Controllers\PengajuanBimbinganController;
+use App\Http\Controllers\LihatJadwalBimbinganController;
+use App\Http\Controllers\ProgresSkripsiController;
+use App\Http\Controllers\LihatProgresSkripsiController;
+
+Route::resource('ProgresSkripsi', ProgresSkripsiController::class);
+Route::post('ProgresSkripsi/{id}/update-komentar', [ProgresSkripsiController::class, 'updateKomentar'])->name('ProgresSkripsi.updateKomentar');
+
+Route::get('/LihatProgresSkripsi', [LihatProgresSkripsiController::class, 'index'])->name('LihatProgresSkripsi.index');
+Route::delete('/LihatProgresSkripsi/{id}', [LihatProgresSkripsiController::class, 'destroy'])->name('LihatProgresSkripsi.destroy');
+
+
+Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('pengajuan.create');
+Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store');
+Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
+Route::put('/pengajuan/{id_pengajuan}', [PengajuanController::class, 'update'])->name('pengajuan.update');
+ 
+Route::resource('LihatStatusJudul', LihatStatusJudulController::class);
+
+Route::middleware([Authenticate::class])->group(function () {
+});
+
+Route::get('profile', function() {
+    return 'hello world';
+});
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('mahasiswa', MahasiswaController::class);
+Route::resource('dosen', DosenController::class);
+Route::resource('JadwalKosongDosen', JadwalKosongController::class);
+Route::resource('LihatJadwalKosong', JadwalKosongLihatController::class);
+Route::resource('PengajuanBimbingan', PengajuanBimbinganController::class);
+Route::resource('LihatJadwalBimbingan', LihatJadwalBimbinganController::class);
+
+Route::middleware(['auth', 'checkRole:dosen'])->group(function () {
+    Route::resource('dosen', DosenController::class);
+});
+
+Route::middleware(['auth', 'checkRole:mahasiswa'])->group(function () {
+    Route::resource('mahasiswa', MahasiswaController::class);
+});
+
+
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/home', function () {
+    return view('home');
+});
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/dashboard',[DashboardController::class,'index']);
 Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda');
 Route::get('/feedback_dan_penilaian',[Feedback_dan_PenilaianController::class,'index'])->name('feedback&penilaian');
@@ -52,7 +125,6 @@ Route::post('manajemen/forum/store', [Manajemen_Forum_DiskusiController::class, 
 Route::delete('manajemen/forum/{id}', [Manajemen_Forum_DiskusiController::class, 'destroy'])->name('forum.destroy');
 Route::post('/forum/{forum}/komentar', [Manajemen_Forum_DiskusiController::class, 'storeKomentar'])->name('forum.komentar.store');
 
-// routes/web.php
 Route::get('/feedback/{id}', [Statistik_Dan_LaporanController::class, 'showFeedback'])->name('skripsi.feedback');
 Route::get('/pengajuan-jadwal', [Statistik_Dan_LaporanController::class, 'showPengajuanJadwal'])->name('skripsi.pengajuan_jadwal');
 Route::post('/pengajuan-jadwal/{id}/update/{status}', [Statistik_Dan_LaporanController::class, 'updateStatusPengajuan'])->name('skripsi.update_status');
@@ -73,4 +145,6 @@ Route::get('pengaturan/test-email', [PengaturanSistemController::class, 'testEma
 Route::get('/pengaturan-sistem', [SettingsController::class, 'index'])->name('pengaturan.index');
 Route::post('/pengaturan-sistem', [SettingsController::class, 'update']);
 Route::get('/backup', [SettingsController::class, 'backup'])->name('pengaturan.backup');
+
 Route::post('/restore', [SettingsController::class, 'restore'])->name('pengaturan.restore');
+

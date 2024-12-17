@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id('id_user'); // Kolom id_user sebagai primary key
-            $table->string('username', 50); // Kolom username (NIM, NIP, atau email)
+            $table->string('email')->unique();
             $table->string('password'); // Kolom password
             $table->enum('role', ['admin', 'mahasiswa', 'dosen']); // Kolom role
             $table->timestamps(); // Kolom created_at dan updated_at otomatis
