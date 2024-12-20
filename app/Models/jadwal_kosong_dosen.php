@@ -17,9 +17,8 @@ class jadwal_kosong_dosen extends Model
     // Menentukan kolom id_jadwal_kosong sebagai primary key
     protected $primaryKey = 'id_jadwal_kosong';
 
-    // Relasi dengan model Dosen (One to Many)
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class, 'id_dosen', 'id_dosen');
+        return $this->belongsTo(Dosen::class, 'id_dosen');
     }
 }

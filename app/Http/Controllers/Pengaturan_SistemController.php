@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class Pengaturan_SistemController extends Controller
 {
     public function index()
     {
-        return view('dashboard_index');
+        return view('pengaturan_sistem');
     }
 }

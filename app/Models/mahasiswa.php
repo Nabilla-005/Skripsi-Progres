@@ -20,9 +20,5 @@ class mahasiswa extends Model
      // Menonaktifkan auto-increment untuk primary key jika tidak ingin menggunakan auto-increment
      // public $incrementing = false;
  
-     // Jika Anda ingin mengenkripsi password secara otomatis saat di-save (gunakan mutator)
-     public function setPasswordAttribute($value)
-     {
-         $this->attributes['password'] = bcrypt($value); // Hash password menggunakan bcrypt
-         } 
+     
 }

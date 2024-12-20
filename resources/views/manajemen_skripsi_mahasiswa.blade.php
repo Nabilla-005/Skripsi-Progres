@@ -2,5 +2,5 @@
 
 @section('content')
 <h1>Beranda</h1>
-<p>Selamat datang di halaman beranda!</p>
+<p>Selamat datang di halaman skripsi!</p>
 @endsection

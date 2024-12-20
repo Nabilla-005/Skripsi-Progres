@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>@yield('title', 'Dashboard')</title>
-  <!-- Link Bootstrap CSS -->
+  <title>Dashboard</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
   <style>
     body {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden; 
+      overflow: hidden;
       margin: 0;
     }
     .sidebar {
@@ -20,9 +21,9 @@
       background-color: #343a40;
       color: white;
       width: 300px;
-      transition: transform 0.3s ease; 
+      transition: transform 0.3s ease;
     }
-    .sidebar.hide {
+    .sidebar.hidden {
       transform: translateX(-100%);
     }
     .sidebar a {
@@ -34,10 +35,11 @@
     .sidebar a:hover, .sidebar a.active {
       background-color: #007bff;
     }
-    .content-section {
-      display: none;
+    .content {
+      flex-grow: 1;
+      padding: 20px;
     }
-    .content-section.active {
+    .content.active {
       display: block;
     }
     .navbar-custom {
@@ -62,8 +64,12 @@
     .d-flex {
       display: flex;
     }
-    .flex-grow-1 {
-      flex-grow: 1;
+    .menu-item {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .menu-item:hover {
+      background-color: #34495e;
     }
   </style>
 </head>
@@ -121,75 +127,39 @@
         <h5>MENU UTAMA</h5>
       </div>
       <nav>
-        <a href="#" class="menu-item active" data-section="beranda">
+        <a href="{{ route('beranda') }}" class="menu-item" active data-section="beranda">
           <i class="bi bi-house-door"></i> Beranda
         </a>
         <h6 class="mt-4">UTILITY</h6>
-        <a href="#" class="menu-item" data-section="manajemen-akun-mahasiswa">
+        <a href="{{ route('manajemen_akun_mahasiswa') }}" class="menu-item" active data-section="manajemen-akun-mahasiswa">
           <i class="bi bi-person-check"></i> Manajemen Akun Mahasiswa
         </a>
-        <a href="#" class="menu-item" data-section="manajemen-akun-dosen">
+        <a href="{{ route('manajemen_akun_dosen') }}" class="menu-item" active data-section="manajemen-akun-dosen">
           <i class="bi bi-person-circle"></i> Manajemen Akun Dosen
         </a>
-        <a href="#" class="menu-item" data-section="manajemen-jadwal-dosen">
+        <a href="{{ route('manajemen_jadwal_dosen') }}" class="menu-item" active data-section="manajemen-jadwal-dosen">
           <i class="bi bi-calendar-event"></i> Manajemen Jadwal Dosen
         </a>
-        <a href="#" class="menu-item" data-section="manajemen-skripsi-mahasiswa">
+        <a href="{{ route('manajemen_skripsi_mahasiswa') }}" class="menu-item" active data-section="manajemen-skripsi-mahasiswa">
           <i class="bi bi-bookmark-star"></i> Manajemen Skripsi Mahasiswa
         </a>
-        <a href="#" class="menu-item" data-section="manajemen-forum-diskusi">
+        <a href="{{ route('manajemen_forum_diskusi') }}" class="menu-item" active data-section="manajemen-forum-diskusi">
           <i class="bi bi-chat-square-dots"></i> Manajemen Forum Diskusi
         </a>
-        <a href="#" class="menu-item" data-section="feedback-penilaian">
+        <a href="{{ route('feedback&penilaian') }}" class="menu-item" active data-section="feedback-penilaian">
           <i class="bi bi-pencil-square"></i> Feedback & Penilaian
         </a>
-        <a href="#" class="menu-item" data-section="statistik-laporan">
+        <a href="{{ route('statistik&laporan') }}" class="menu-item" active data-section="statistik-laporan">
           <i class="bi bi-graph-up"></i> Statistik & Laporan
         </a>
-        <a href="#" class="menu-item" data-section="pengaturan-sistem">
+        <a href="{{ route('pengaturan_sistem') }}" class="menu-item" active data-section="pengaturan-sistem">
           <i class="bi bi-gear-wide"></i> Pengaturan Sistem
         </a>
       </nav>
     </div>
 
-    <!-- Main Content -->
-    <div class="flex-grow-1 p-4">
-      <div id="beranda" class="content-section active">
-        <h3>Beranda</h3>
-        <p>Selamat datang di halaman beranda. Ini adalah tampilan utama dashboard.</p>
-      </div>
-      <div id="manajemen-akun-mahasiswa" class="content-section">
-        <h3>Manajemen Akun Mahasiswa</h3>
-        <p>Halaman ini berisi pengaturan akun mahasiswa.</p>
-      </div>
-      <div id="manajemen-akun-dosen" class="content-section">
-        <h3>Manajemen Akun Dosen</h3>
-        <p>Kelola akun dosen di halaman ini.</p>
-      </div>
-      <div id="manajemen-jadwal-dosen" class="content-section">
-        <h3>Manajemen Jadwal Dosen</h3>
-        <p>Halaman untuk manajemen jadwal dosen.</p>
-      </div>
-      <div id="manajemen-skripsi-mahasiswa" class="content-section">
-        <h3>Manajemen Skripsi Mahasiswa</h3>
-        <p>Halaman untuk mengelola skripsi mahasiswa.</p>
-      </div>
-      <div id="manajemen-forum-diskusi" class="content-section">
-        <h3>Manajemen Forum Diskusi</h3>
-        <p>Halaman untuk mengelola forum diskusi.</p>
-      </div>
-      <div id="feedback-penilaian" class="content-section">
-        <h3>Feedback & Penilaian</h3>
-        <p>Halaman untuk feedback dan penilaian.</p>
-      </div>
-      <div id="statistik-laporan" class="content-section">
-        <h3>Statistik & Laporan</h3>
-        <p>Halaman untuk statistik dan laporan.</p>
-      </div>
-      <div id="pengaturan-sistem" class="content-section">
-        <h3>Pengaturan Sistem</h3>
-        <p>Halaman untuk pengaturan sistem.</p>
-      </div>
+    <div id="content">
+      @yield('content')
     </div>
   </div>
 
@@ -200,26 +170,8 @@
   <!-- JavaScript untuk Sidebar dan Menu -->
   <script>
     // Toggle Sidebar
-    document.getElementById("menuToggle").addEventListener("click", function() {
-      document.getElementById("sidebar").classList.toggle("hide");
-    });
-
-    // Interaktif Menu
-    document.addEventListener("DOMContentLoaded", function() {
-      const menuItems = document.querySelectorAll(".menu-item");
-      const sections = document.querySelectorAll(".content-section");
-
-      menuItems.forEach(item => {
-        item.addEventListener("click", function(e) {
-          e.preventDefault();
-          menuItems.forEach(link => link.classList.remove("active"));
-          sections.forEach(section => section.classList.remove("active"));
-
-          const sectionId = this.getAttribute("data-section");
-          document.getElementById(sectionId).classList.add("active");
-          this.classList.add("active");
-        });
-      });
+      document.getElementById("menuToggle").addEventListener("click", function() {
+      document.getElementById("sidebar").classList.toggle("hidden");
     });
   </script>
 </body>
