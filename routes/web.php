@@ -8,11 +8,11 @@ use App\Http\Controllers\Manajemen_Akun_DosenController;
 use App\Http\Controllers\Manajemen_Akun_MahasiswaController;
 use App\Http\Controllers\Manajemen_Forum_DiskusiController;
 use App\Http\Controllers\Manajemen_Jadwal_DosenController;
-use App\Http\Controllers\Pengaturan_SistemController;
+use App\Http\Controllers\PengaturanSistemController;
 use App\Http\Controllers\Manajemen_Skripsi_MahasiswaController;
 use App\Http\Controllers\Statistik_Dan_LaporanController;
-
 use App\Http\Controllers\KomentarForumController;
+use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,7 +25,7 @@ Route::get('/manajemen_akun_dosen',[Manajemen_Akun_DosenController::class,'index
 Route::get('/manajemen_akun_mahasiswa',[Manajemen_Akun_MahasiswaController::class,'index'])->name('manajemen_akun_mahasiswa');
 Route::get('/manajemen_forum_diskusi',[Manajemen_Forum_DiskusiController::class,'index'])->name('manajemen_forum_diskusi');
 Route::get('/jadwalkosong',[Manajemen_Jadwal_DosenController::class,'index'])->name('manajemen_jadwal_dosen');
-Route::get('/pengaturan_sistem',[Pengaturan_SistemController::class,'index'])->name('pengaturan_sistem');
+Route::get('/pengaturan_sistem',[PengaturanSistemController::class,'index'])->name('pengaturan_sistem');
 Route::get('/manajemen_skripsi_mahasiswa',[Manajemen_Skripsi_MahasiswaController::class,'index'])->name('manajemen_skripsi_mahasiswa');
 Route::get('/statistik_dan_laporan',[Statistik_Dan_LaporanController::class,'index'])->name('statistik&laporan');
 
@@ -52,6 +52,13 @@ Route::post('manajemen/forum/store', [Manajemen_Forum_DiskusiController::class, 
 Route::delete('manajemen/forum/{id}', [Manajemen_Forum_DiskusiController::class, 'destroy'])->name('forum.destroy');
 Route::post('/forum/{forum}/komentar', [Manajemen_Forum_DiskusiController::class, 'storeKomentar'])->name('forum.komentar.store');
 
-Route::post('/admin/pengajuan', [Manajemen_Skripsi_MahasiswaController::class, 'storePengajuan'])->name('admin.pengajuan.store');
-Route::get('/admin/progres', [Manajemen_Skripsi_MahasiswaController::class, 'indexProgres'])->name('admin.progres.index');
-Route::post('/admin/progres', [Manajemen_Skripsi_MahasiswaController::class, 'storeProgres'])->name('admin.progres.store');
+Route::post('/store-pengajuan', [Manajemen_Skripsi_MahasiswaController::class, 'storePengajuan'])->name('storePengajuan');
+Route::post('/store-progres', [Manajemen_Skripsi_MahasiswaController::class, 'storeProgres'])->name('storeProgres');
+
+Route::get('pengaturan', [PengaturanSistemController::class, 'index'])->name('pengaturan.index');
+Route::post('pengaturan', [PengaturanSistemController::class, 'update'])->name('pengaturan.update');
+Route::get('pengaturan/test-email', [PengaturanSistemController::class, 'testEmail'])->name('pengaturan.testEmail');
+Route::get('/pengaturan-sistem', [SettingsController::class, 'index'])->name('pengaturan.index');
+Route::post('/pengaturan-sistem', [SettingsController::class, 'update']);
+Route::get('/backup', [SettingsController::class, 'backup'])->name('pengaturan.backup');
+Route::post('/restore', [SettingsController::class, 'restore'])->name('pengaturan.restore');

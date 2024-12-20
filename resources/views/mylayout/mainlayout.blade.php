@@ -18,7 +18,7 @@
     }
     .sidebar {
       height: 100vh;
-      background-color: #343a40;
+      background-color:rgba(72, 82, 88);
       color: white;
       width: 300px;
       transition: transform 0.3s ease;
@@ -33,24 +33,31 @@
       display: block;
     }
     .sidebar a:hover, .sidebar a.active {
-      background-color: #007bff;
+      background-color:rgba(134, 140, 148);
     }
     .content {
-      flex-grow: 1;
-      padding: 20px;
-    }
+    flex-grow: 1;
+    padding: 20px;
+    background-image: url('https://via.placeholder.com/1200x800'); /* Ganti dengan URL gambar Anda */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(169, 170, 169);
+    color: #2c2f33; /* Warna teks untuk kontras dengan gambar */
+  }
     .content.active {
       display: block;
     }
     .navbar-custom {
-      background-color: #ffffff;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      background-color:rgb(134, 140, 148);
+      box-shadow: 0px 2px 4px rgba(72, 82, 88);
     }
     .notification-badge {
       position: absolute;
       top: 2px;
       right: 2px;
-      font-size: 10px;
+      font-size: 15px;
       background-color: red;
       color: white;
       border-radius: 50%;
@@ -69,7 +76,7 @@
       cursor: pointer;
     }
     .menu-item:hover {
-      background-color: #34495e;
+      background-color:rgb(84, 29, 8);
     }
   </style>
 </head>
@@ -84,7 +91,7 @@
       <!-- Logo -->
       <a class="navbar-brand d-flex align-items-center" href="#">
         <img src="https://via.placeholder.com/40" alt="Logo" class="me-2">
-        <span class="fw-bold text-dark">MENU UTAMA</span>
+        <span class="fw-bold text-dark">PROGRES SKRIPSI</span>
       </a>
       <!-- User Profile & Notification -->
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
