@@ -1,6 +1,12 @@
 @extends('mylayout.mainlayout')
 
 @section('content')
-<h1>statistik_dan_laporan</h1>
-<p>Selamat datang di halaman statistik!</p>
+<div class="container">
+    <h1>Statistik Sistem</h1>
+    <div>
+        <p>Total Mahasiswa: {{ $totalMahasiswa }}</p>
+        <p>Total Dosen: {{ $totalDosen }}</p>
+        <p>Total Jadwal: {{ $totalJadwal }}</p>
+    </div>
+</div>
 @endsection

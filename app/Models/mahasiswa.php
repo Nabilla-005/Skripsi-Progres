@@ -19,6 +19,12 @@ class mahasiswa extends Model
  
      // Menonaktifkan auto-increment untuk primary key jika tidak ingin menggunakan auto-increment
      // public $incrementing = false;
+
+     public function progresSkripis()
+{
+    return $this->hasMany(ProgresSkripsi::class, 'id_mahasiswa', 'id_mahasiswa');
+}
+
  
      
 }

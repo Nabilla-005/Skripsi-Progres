@@ -52,6 +52,13 @@ Route::post('manajemen/forum/store', [Manajemen_Forum_DiskusiController::class, 
 Route::delete('manajemen/forum/{id}', [Manajemen_Forum_DiskusiController::class, 'destroy'])->name('forum.destroy');
 Route::post('/forum/{forum}/komentar', [Manajemen_Forum_DiskusiController::class, 'storeKomentar'])->name('forum.komentar.store');
 
-Route::post('/admin/pengajuan', [Manajemen_Skripsi_MahasiswaController::class, 'storePengajuan'])->name('admin.pengajuan.store');
-Route::get('/admin/progres', [Manajemen_Skripsi_MahasiswaController::class, 'indexProgres'])->name('admin.progres.index');
-Route::post('/admin/progres', [Manajemen_Skripsi_MahasiswaController::class, 'storeProgres'])->name('admin.progres.store');
+// routes/web.php
+Route::get('/feedback/{id}', [Statistik_Dan_LaporanController::class, 'showFeedback'])->name('skripsi.feedback');
+Route::get('/pengajuan-jadwal', [Statistik_Dan_LaporanController::class, 'showPengajuanJadwal'])->name('skripsi.pengajuan_jadwal');
+Route::post('/pengajuan-jadwal/{id}/update/{status}', [Statistik_Dan_LaporanController::class, 'updateStatusPengajuan'])->name('skripsi.update_status');
+
+Route::get('/feedback/{id}', [Feedback_dan_PenilaianController::class, 'showFeedbackAndPenilaian'])->name('feedback.show');
+Route::get('/feedback', [FeedbackDanPenilaianController::class, 'index'])->name('feedback.index');
+
+Route::get('/statistik-dan-laporan', [Statistik_Dan_LaporanController::class, 'index'])->name('statistik.dan.laporan');
+Route::post('/generate-laporan', [Statistik_Dan_LaporanController::class, 'generateLaporan'])->name('generate.laporan');
