@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\feedback_skripsi;
-use App\Models\progres_skripsi;
-use App\Models\pengajuan_judul;
+use App\Models\PengajuanJudul;  // Pastikan diimport dengan benar
+use App\Models\ProgresSkripsi;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+
 class Manajemen_Skripsi_MahasiswaController extends Controller
 {
-// Method untuk menampilkan halaman utama manajemen skripsi
-public function index()
-{
-    $pengajuan = pengajuan_judul::with('mahasiswa')->get();
-    $progres = progres_skripsi::with('mahasiswa')->get();
-
-    return view('admin.pengajuan.index', compact('pengajuan', 'progres'));
-}
+    // Menampilkan daftar mahasiswa beserta status bimbingan dan progres skripsi mereka
+    public function index()
+    {
+        $mahasiswas = mahasiswa::with(['pengajuanJuduls', 'progresSkripsis'])->get();
+        return view('manajemen_skripsi_mahasiswa', compact('mahasiswas'));
+    }
 
     // Menyimpan pengajuan judul skripsi
     public function storePengajuan(Request $request)
     {
         $validated = $request->validate([
-            'id_mahasiswa' => 'required|exists:mahasiswa,id_mahasiswa',
+            'id_mahasiswa' => 'required|exists:mahasiswas,id_mahasiswa',
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required',
             'file_path' => 'nullable|file',
@@ -31,33 +30,7 @@ public function index()
             $validated['file_path'] = $request->file('file_path')->store('pengajuan_judul');
         }
 
-        pengajuan_judul::create($validated);
+        PengajuanJudul::create($validated);
         return redirect()->back()->with('success', 'Pengajuan berhasil disimpan.');
     }
-
-    // Melihat daftar progres skripsi
-    public function indexProgres()
-    {
-        $progres = progres_skripsi::with('mahasiswa')->get();
-        return view('admin.progres.index', compact('progres'));
-    }
-
-    // Menyimpan progres skripsi
-    public function storeProgres(Request $request)
-    {
-        $validated = $request->validate([
-            'id_mahasiswa' => 'required|exists:mahasiswa,id_mahasiswa',
-            'file_path' => 'nullable|file',
-            'komentar' => 'nullable',
-            'tanggal_upload' => 'required|date',
-        ]);
-
-        if ($request->hasFile('file_path')) {
-            $validated['file_path'] = $request->file('file_path')->store('progres_skripsi');
-        }
-
-        progres_skripsi::create($validated);
-        return redirect()->back()->with('success', 'Progres berhasil ditambahkan.');
 }
-}
-

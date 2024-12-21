@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class pengajuan_judul extends Model
+class PengajuanJudul extends Model // Nama kelas diubah menjadi PascalCase
 {
     use HasFactory;
 
@@ -27,5 +27,5 @@ class pengajuan_judul extends Model
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa', 'id_mahasiswa');
-}
+    }
 }

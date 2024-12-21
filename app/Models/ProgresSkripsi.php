@@ -28,6 +28,7 @@ class ProgresSkripsi extends Model
 
     /**
      * Relasi ke model Mahasiswa.
+     * Setiap progres_skripsi milik satu mahasiswa.
      */
     public function mahasiswa()
     {
@@ -36,9 +37,11 @@ class ProgresSkripsi extends Model
 
     /**
      * Relasi ke feedback skripsi.
+     * Setiap progres_skripsi bisa memiliki banyak feedback.
      */
     public function feedbacks()
     {
         return $this->hasMany(feedback_skripsi::class, 'id_progres', 'id_progres');
+        // return $this->hasMany(FeedbackSkripsi::class, 'id_progres', 'id_progres');
     }
 }
