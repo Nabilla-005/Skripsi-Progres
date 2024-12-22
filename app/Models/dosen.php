@@ -16,13 +16,14 @@ class dosen extends Model
  
      // Menentukan kolom id_dosen sebagai primary key
      protected $primaryKey = 'id_dosen';
+
+     public function jadwalKosong()
+    {
+        return $this->hasMany(Jadwalkosong::class, 'id_dosen');
+    }
  
      // Menonaktifkan auto-increment untuk primary key jika tidak ingin menggunakan auto-increment
      // public $incrementing = false;
  
      // Jika Anda ingin mengenkripsi password secara otomatis saat di-save (gunakan mutator)
-     public function setPasswordAttribute($value)
-     {
-         $this->attributes['password'] = bcrypt($value); // Hash password menggunakan bcrypt
-         } 
 }
