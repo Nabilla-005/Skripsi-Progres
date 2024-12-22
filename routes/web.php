@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\MahasiswaController;
+use \App\Http\Controllers\DosenController;
+use \App\Http\Controllers\JadwalKosongController;
+use \App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\Feedback_dan_PenilaianController;
@@ -14,10 +18,18 @@ use App\Http\Controllers\Statistik_Dan_LaporanController;
 use App\Http\Controllers\KomentarForumController;
 use App\Http\Controllers\SettingsController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('mahasiswa', MahasiswaController::class);
+Route::resource('dosen', DosenController::class);
+Route::resource('JadwalKosongDosen', JadwalKosongController::class);
+Route::resource('PengajuanBimbingan', PengajuanController::class);
 
+
+Route::get('/home', function () {
+    return view('home');
+});
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/dashboard',[DashboardController::class,'index']);
 Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda');
 Route::get('/feedback_dan_penilaian',[Feedback_dan_PenilaianController::class,'index'])->name('feedback&penilaian');
@@ -52,6 +64,18 @@ Route::post('manajemen/forum/store', [Manajemen_Forum_DiskusiController::class, 
 Route::delete('manajemen/forum/{id}', [Manajemen_Forum_DiskusiController::class, 'destroy'])->name('forum.destroy');
 Route::post('/forum/{forum}/komentar', [Manajemen_Forum_DiskusiController::class, 'storeKomentar'])->name('forum.komentar.store');
 
+// routes/web.php
+Route::get('/feedback/{id}', [Statistik_Dan_LaporanController::class, 'showFeedback'])->name('skripsi.feedback');
+Route::get('/pengajuan-jadwal', [Statistik_Dan_LaporanController::class, 'showPengajuanJadwal'])->name('skripsi.pengajuan_jadwal');
+Route::post('/pengajuan-jadwal/{id}/update/{status}', [Statistik_Dan_LaporanController::class, 'updateStatusPengajuan'])->name('skripsi.update_status');
+
+Route::get('/feedback/{id}', [Feedback_dan_PenilaianController::class, 'showFeedbackAndPenilaian'])->name('feedback.show');
+Route::get('/feedback', [Feedback_dan_PenilaianController::class, 'index'])->name('feedback.index');
+
+
+Route::get('/statistik-dan-laporan', [Statistik_Dan_LaporanController::class, 'index'])->name('statistik.dan.laporan');
+Route::post('/generate-laporan', [Statistik_Dan_LaporanController::class, 'generateLaporan'])->name('generate.laporan');
+
 Route::post('/store-pengajuan', [Manajemen_Skripsi_MahasiswaController::class, 'storePengajuan'])->name('storePengajuan');
 Route::post('/store-progres', [Manajemen_Skripsi_MahasiswaController::class, 'storeProgres'])->name('storeProgres');
 
@@ -61,4 +85,9 @@ Route::get('pengaturan/test-email', [PengaturanSistemController::class, 'testEma
 Route::get('/pengaturan-sistem', [SettingsController::class, 'index'])->name('pengaturan.index');
 Route::post('/pengaturan-sistem', [SettingsController::class, 'update']);
 Route::get('/backup', [SettingsController::class, 'backup'])->name('pengaturan.backup');
+
 Route::post('/restore', [SettingsController::class, 'restore'])->name('pengaturan.restore');
+
+Route::post('/restore', [SettingsController::class, 'restore'])->name('pengaturan.restore');
+
+

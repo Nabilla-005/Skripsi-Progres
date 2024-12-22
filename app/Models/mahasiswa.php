@@ -20,11 +20,16 @@ class mahasiswa extends Model
     protected $primaryKey = 'id_mahasiswa';
 
     // Relasi ke tabel progres_skripsis (banyak progres untuk satu mahasiswa)
-    public function progresSkripsis()
-    {
-        return $this->hasMany(ProgresSkripsi::class, 'id_mahasiswa');
-    }
 
+     // Menonaktifkan auto-increment untuk primary key jika tidak ingin menggunakan auto-increment
+     // public $incrementing = false;
+
+     public function progresSkripis()
+{
+    return $this->hasMany(ProgresSkripsi::class, 'id_mahasiswa', 'id_mahasiswa');
+}
+
+   
     // Relasi ke tabel pengajuan_juduls (banyak pengajuan untuk satu mahasiswa)
     public function pengajuanJuduls()
 {

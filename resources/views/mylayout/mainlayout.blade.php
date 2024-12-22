@@ -12,6 +12,8 @@
     body {
       min-height: 100vh;
       display: flex;
+      background-image: url('{{ asset('images/pot.jpg') }}');
+      background-size: 100% 100%;
       flex-direction: column;
       overflow: hidden;
       margin: 0;
@@ -36,15 +38,12 @@
       background-color:rgba(134, 140, 148);
     }
     .content {
-    flex-grow: 1;
-    padding: 20px;
-    background-image: url('https://via.placeholder.com/1200x800'); /* Ganti dengan URL gambar Anda */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(169, 170, 169);
-    color: #2c2f33; /* Warna teks untuk kontras dengan gambar */
+      flex-grow: 1;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.27); /* Transparansi untuk konten */
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(169, 170, 169);
+      color: #2c2f33; /* Warna teks untuk kontras dengan gambar */
   }
     .content.active {
       display: block;
@@ -157,7 +156,7 @@
           <i class="bi bi-pencil-square"></i> Feedback & Penilaian
         </a>
         <a href="{{ route('statistik&laporan') }}" class="menu-item" active data-section="statistik-laporan">
-          <i class="bi bi-graph-up"></i> Statistik & Laporan
+          <i class="bi bi-graph-up"></i> Statistik 
         </a>
         <a href="{{ route('pengaturan_sistem') }}" class="menu-item" active data-section="pengaturan-sistem">
           <i class="bi bi-gear-wide"></i> Pengaturan Sistem

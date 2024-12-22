@@ -13,6 +13,8 @@ class ProgresSkripsi extends Model
     protected $primaryKey = 'id_progres'; // Primary Key
     public $timestamps = true; // Aktifkan timestamps jika tabel menggunakan created_at dan updated_at
 
+    
+    // Kolom yang boleh diisi secara massal
     protected $fillable = [
         'id_mahasiswa',
         'file_path',
@@ -26,7 +28,7 @@ class ProgresSkripsi extends Model
      */
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa', 'id_mahasiswa');
+        return $this->belongsTo(mahasiswa::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 
     /**
@@ -35,6 +37,8 @@ class ProgresSkripsi extends Model
      */
     public function feedbacks()
     {
-        return $this->hasMany(FeedbackSkripsi::class, 'id_progres', 'id_progres');
+        return $this->hasMany(feedback_skripsi::class, 'id_progres', 'id_progres');
+        // return $this->hasMany(FeedbackSkripsi::class, 'id_progres', 'id_progres');
     }
 }
+

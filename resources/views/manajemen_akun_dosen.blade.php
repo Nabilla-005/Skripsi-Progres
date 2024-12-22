@@ -19,11 +19,8 @@
         padding: 20px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Efek bayangan */
         margin-top: 50px; /* Margin atas agar tidak terlalu dekat dengan header */
-    }
-
-    table {
-        border-collapse: separate;
-        border-spacing: 0 10px;
+        width: 100%;  /* Menggunakan 100% agar kontainer memenuhi lebar layar */
+        max-width: none; /* Menghilangkan batasan lebar maksimum */
     }
 
     .table {
@@ -33,10 +30,12 @@
         transition: max-height 0.3s ease-in-out;
     }
 
-    /* Untuk tabel agar bisa scroll */
+    /* Untuk scroll horizontal */
     .table-responsive {
-        max-height: 400px;  /* Tentukan tinggi maksimum agar bisa di-scroll */
+        max-height: 400px;  /* Tentukan tinggi maksimum agar bisa di-scroll vertikal */
         overflow-y: auto;   /* Mengaktifkan scroll vertikal */
+        overflow-x: auto;   /* Mengaktifkan scroll horizontal */
+        -webkit-overflow-scrolling: touch; /* Menambahkan sentuhan halus untuk perangkat mobile */
     }
 
     .table th,
