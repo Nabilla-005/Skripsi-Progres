@@ -2,7 +2,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Jadwal Kosong Dosen</h5>
+            <h3 class="card-title">Jadwal Kosong Dosen</h3>
             <form action="{{ route('JadwalKosongDosen.store') }}" method="POST">
                 @csrf
                 <div class="form-group mt-1 mb-3">

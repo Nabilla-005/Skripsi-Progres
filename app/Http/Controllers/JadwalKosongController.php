@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\dosen;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -12,11 +12,29 @@ class JadwalKosongController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $data['jadwal_kosong_dosen'] = \App\Models\jadwal_kosong_dosen::latest()->paginate(10);
-        return view('JadwalKosongDosen.dosen_index', $data);
+
+     // JadwalKosongController.php
+public function index()
+{
+    // Memeriksa apakah pengguna yang sedang login adalah dosen dan memiliki relasi dosen
+    $user = auth()->user();
+    
+    // Mengambil data dosen yang terkait dengan email pengguna yang sedang login
+    $dosen = $user->dosen; // ini akan mengambil relasi dosen berdasarkan email
+
+    if ($dosen) {
+        // Ambil data jadwal kosong berdasarkan id_dosen
+        $data['jadwal_kosong_dosen'] = \App\Models\jadwal_kosong_dosen::where('id_dosen', $dosen->id_dosen)
+            ->latest()->paginate(10);
+    } else {
+        // Jika tidak ditemukan dosen terkait, beri data kosong
+        $data['jadwal_kosong_dosen'] = collect(); // Menggunakan koleksi kosong
     }
+
+    $data['dosen'] = \App\Models\Dosen::all();
+    
+    return view('JadwalKosongDosen.dosen_index', $data);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -71,11 +89,19 @@ class JadwalKosongController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function edit($id)
     {
-        $data['jadwal_kosong_dosen'] = \App\Models\jadwal_kosong_dosen::findOrFail($id);
+        $jadwal_kosong_dosen = \App\Models\jadwal_kosong_dosen::findOrFail($id);
+    
+        // Pastikan pengguna adalah dosen dan memiliki id_dosen yang sesuai
+        if (auth()->user()->status !== 'dosen' || auth()->user()->dosen->id_dosen !== $jadwal_kosong_dosen->id_dosen) {
+            return redirect()->route('JadwalKosongDosen.index')->with('error', 'Akses ditolak!');
+        }
+    
+        $data['jadwal_kosong_dosen'] = $jadwal_kosong_dosen;
         $data['dosens'] = \App\Models\Dosen::all();
-        return view('JadwalKosongDosen.dosen_edit',  $data);
+        return view('JadwalKosongDosen.dosen_edit', $data);
     }
 
     /**
@@ -110,10 +136,16 @@ class JadwalKosongController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        $jadwal_kosong_dosen = \App\Models\jadwal_kosong_dosen::findOrFail($id);
-        $jadwal_kosong_dosen->delete();
-        flash('Data berhasil dihapus');
-        return back();
+{
+    $jadwal_kosong_dosen = \App\Models\jadwal_kosong_dosen::findOrFail($id);
+
+    // Cek apakah id_dosen pada jadwal kosong sama dengan id_dosen dosen yang sedang login
+   if (auth()->user()->status !== 'dosen' || auth()->user()->dosen->id_dosen !== $jadwal_kosong_dosen->id_dosen) {
+        return redirect()->route('JadwalKosongDosen.index')->with('error', 'Akses ditolak!');
     }
+
+    $jadwal_kosong_dosen->delete();
+    flash('Data berhasil dihapus');
+    return back();
+}
 }
