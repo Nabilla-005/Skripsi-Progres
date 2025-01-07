@@ -12,7 +12,7 @@
     body {
       min-height: 100vh;
       display: flex;
-      background-image: url('{{ asset('images/pot.jpg') }}');
+      background-image: url('{{ asset('images/po.jpg') }}');
       background-size: 100% 100%;
       flex-direction: column;
       overflow: hidden;

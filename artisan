@@ -1,53 +1,252 @@
-#!/usr/bin/env php
-<?php
+program TransformasiGeometri;
 
-define('LARAVEL_START', microtime(true));
+uses
+  crt, graph, math, sysutils;
 
-/*
-|--------------------------------------------------------------------------
-| Register The Auto Loader
-|--------------------------------------------------------------------------
-|
-| Composer provides a convenient, automatically generated class loader
-| for our application. We just need to utilize it! We'll require it
-| into the script here so that we do not have to worry about the
-| loading of any of our classes manually. It's great to relax.
-|
-*/
+type
+  pointType = record
+    x, y: integer;
+  end;
 
-require __DIR__.'/vendor/autoload.php';
+  poly8 = array[1..8] of pointType; // Poligon dengan 8 titik
 
-$app = require_once __DIR__.'/bootstrap/app.php';
+const
+  panah: poly8 = (
+    (x: 200; y: 200), (x: 400; y: 200), (x: 400; y: 150),
+    (x: 500; y: 250), (x: 400; y: 350), (x: 400; y: 300),
+    (x: 200; y: 300), (x: 200; y: 200)
+  );
 
-/*
-|--------------------------------------------------------------------------
-| Run The Artisan Application
-|--------------------------------------------------------------------------
-|
-| When we run the console application, the current CLI command will be
-| executed in this console and the response sent back to a terminal
-| or another output device for the developers. Here goes nothing!
-|
-*/
+  // Warna khusus
+  orange = 15; // Warna orange
+  purple = 13; // Warna ungu
 
-$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+var
+  grDriver, grMode: smallint;
+  panahSkala, panahShear, panahRotasi, panahTranslasi, panahRefleksi, panahTransformasi: poly8;
 
-$status = $kernel->handle(
-    $input = new Symfony\Component\Console\Input\ArgvInput,
-    new Symfony\Component\Console\Output\ConsoleOutput
-);
+// Fungsi untuk menghitung titik tengah poligon
+function findCenterPoint(poly: poly8): pointType;
+var
+  i: byte;
+  sumX, sumY: integer;
+begin
+  sumX := 0;
+  sumY := 0;
+  for i := 1 to 8 do
+  begin
+    sumX := sumX + poly[i].x;
+    sumY := sumY + poly[i].y;
+  end;
+  findCenterPoint.x := sumX div 8;
+  findCenterPoint.y := sumY div 8;
+end;
+// Prosedur untuk menampilkan koordinat pada titik
+procedure showCoordinates(p: pointType);
+begin
+  outTextXY(p.x + 15, p.y - 15, '(' + IntToStr(p.x) + ',' + IntToStr(p.y) + ')');
+end;
 
-/*
-|--------------------------------------------------------------------------
-| Shutdown The Application
-|--------------------------------------------------------------------------
-|
-| Once Artisan has finished running, we will fire off the shutdown events
-| so that any final work may be done by the application before we shut
-| down the process. This is the last thing to happen to the request.
-|
-*/
+// Prosedur untuk menampilkan koordinat pada grafik
+procedure showCoordinatesOnGraph(poly: poly8);
+var
+  i: byte;
+begin
+  for i := 1 to 8 do
+    showCoordinates(poly[i]);
+end;
 
-$kernel->terminate($input, $status);
+// Prosedur untuk menggambar garis antara titik-titik poligon
+procedure drawLines(poly: poly8);
+var
+  i: byte;
+begin
+  for i := 1 to 7 do
+    line(poly[i].x, poly[i].y, poly[i + 1].x, poly[i + 1].y); // Menghubungkan titik ke titik berikutnya
+  line(poly[8].x, poly[8].y, poly[1].x, poly[1].y); // Menutup poligon
+end;
 
-exit($status);
+// Prosedur untuk menampilkan nama di dalam bidang datar
+procedure showNameInPolygon(poly: poly8; name: string);
+var
+  centerPoint: pointType;
+begin
+  centerPoint := findCenterPoint(poly);
+  outTextXY(centerPoint.x - (length(name) * 1), centerPoint.y, name); // Nama ditempatkan di dalam poligon (di titik tengah)
+end;
+
+// Prosedur untuk melakukan skala
+procedure skalaPanah(sx, sy: real);
+var
+  i: byte;
+  xBaru, yBaru: real;
+begin
+  for i := 1 to 8 do
+  begin
+    xBaru := sx * panah[i].x;
+    yBaru := sy * panah[i].y;
+    panahSkala[i].x := round(xBaru);
+    panahSkala[i].y := round(yBaru);
+  end;
+end;
+
+// Prosedur untuk melakukan shear
+procedure shearPanah(shearX, shearY: real);
+var
+  i: byte;
+  xBaru, yBaru: real;
+begin
+  for i := 1 to 8 do
+  begin
+    xBaru := panah[i].x + shearX * panah[i].y;
+    yBaru := panah[i].y + shearY * panah[i].x;
+    panahShear[i].x := round(xBaru);
+    panahShear[i].y := round(yBaru);
+  end;
+end;
+
+// Prosedur untuk melakukan rotasi
+procedure rotasiPanah(sudut: real);
+var
+  i: byte;
+  dx, dy, xBaru, yBaru: real;
+begin
+  for i := 1 to 8 do
+  begin
+    dx := panah[i].x;
+    dy := panah[i].y;
+    xBaru := dx * cos(sudut) - dy * sin(sudut);
+    yBaru := dx * sin(sudut) + dy * cos(sudut);
+    panahRotasi[i].x := round(xBaru);
+    panahRotasi[i].y := round(yBaru);
+  end;
+end;
+
+// Prosedur untuk melakukan translasi
+procedure translasiPanah(dx, dy: integer);
+var
+  i: byte;
+begin
+  for i := 1 to 8 do
+  begin
+    panahTranslasi[i].x := panah[i].x + dx;
+    panahTranslasi[i].y := panah[i].y + dy;
+  end;
+end;
+
+// Prosedur untuk melakukan refleksi terhadap sumbu X
+procedure refleksiPanah;
+var
+  i: byte;
+begin
+  for i := 1 to 8 do
+  begin
+    panahRefleksi[i].x := panah[i].x;
+    panahRefleksi[i].y := -panah[i].y;
+  end;
+end;
+
+// Prosedur untuk melakukan skala dan translasi
+procedure skalaDanTranslasi(sx, sy: real; dx, dy: integer);
+var
+  i: byte;
+  xBaru, yBaru: real;
+begin
+  for i := 1 to 8 do
+  begin
+    xBaru := sx * panah[i].x;
+    yBaru := sy * panah[i].y;
+    panahTransformasi[i].x := round(xBaru) + dx;
+    panahTransformasi[i].y := round(yBaru) + dy;
+  end;
+end;
+
+// Program pertama: Transformasi geometrik dasar
+procedure programPertama;
+begin
+  clearDevice;
+  setTextStyle(triplexFont, horizDir, 4);
+  setTextJustify(centerText, centerText);
+  setColor(red);
+  outTextXY(getMaxX div 2, 50, 'TRANSFORMASI GEOMETRIK DASAR');
+
+  setTextStyle(defaultFont, horizDir, 1);
+  setColor(blue);
+  drawLines(panah); // Gambar garis untuk objek asli
+  showCoordinatesOnGraph(panah);
+  showNameInPolygon(panah, 'Bidang Asli');  // Menampilkan nama bidang asli
+
+  setColor(green);
+  skalaPanah(2.3, 1.7);
+  drawLines(panahSkala);
+  showCoordinatesOnGraph(panahSkala);
+  showNameInPolygon(panahSkala, 'Skala 2.3, 1.7'); // Menampilkan nama bidang skala
+
+  setColor(red);
+  shearPanah(0.0, 0.9);
+  drawLines(panahShear);
+  showCoordinatesOnGraph(panahShear);
+  showNameInPolygon(panahShear, 'Shear 0.0, 0.9'); // Menampilkan nama bidang shear
+
+  setColor(8);
+  rotasiPanah(pi / 4);
+  drawLines(panahRotasi);
+  showCoordinatesOnGraph(panahRotasi);
+  showNameInPolygon(panahRotasi, 'Rotasi 45°'); // Menampilkan nama bidang rotasi di dalam bidang rotasi
+
+  setColor(purple);
+  translasiPanah(400, 400);
+  drawLines(panahTranslasi);
+  showCoordinatesOnGraph(panahTranslasi);
+  showNameInPolygon(panahTranslasi, 'Translasi 400, 400'); // Menampilkan nama bidang translasi
+
+  setColor(orange);
+  refleksiPanah;
+  drawLines(panahRefleksi);
+  showCoordinatesOnGraph(panahRefleksi);
+  showNameInPolygon(panahRefleksi, 'Refleksi Terhadap Sumbu X'); // Menampilkan nama bidang refleksi
+
+  writeln('Tekan Enter untuk melanjutkan...');
+  readln;  // Menunggu input enter
+end;
+
+// Program kedua: Skala dan Translasi
+procedure programKedua;
+begin
+  clearDevice;
+  setTextStyle(triplexFont, horizDir, 3);
+  setColor(red);
+  outTextXY(getMaxX div 2, 50, 'SKALA DAN TRANSLASI KOMBINASI');
+
+  setTextStyle(defaultFont, horizDir, 1);
+  setColor(blue);
+  drawLines(panah); // Gambar garis untuk objek asli
+  showCoordinatesOnGraph(panah);
+  showNameInPolygon(panah, 'Bidang Asli'); // Menampilkan nama bidang asli
+
+  skalaDanTranslasi(1.5, 1.5, 300, 200);
+  setColor(green);
+  drawLines(panahTransformasi); // Gambar garis untuk hasil transformasi
+  showCoordinatesOnGraph(panahTransformasi);
+  showNameInPolygon(panahTransformasi, 'Skala:1.5, 1.5 dan Translasi:300, 300'); // Menampilkan nama bidang hasil transformasi
+                                               
+  writeln('Tekan Enter untuk selesai...');
+  readln;  // Menunggu input enter
+end;
+
+// Program Utama
+begin
+  // Tampilkan pesan di terminal
+  writeln('Harap enter...');
+  writeln('Tekan Enter untuk melanjutkan program 1 setelah selesai maka bisa enter kembali...');
+  readln;  // Tunggu input sebelum melanjutkan ke program utama
+  
+  grDriver := DETECT;
+  initGraph(grDriver, grMode, '');
+  setBkColor(white);
+
+  programPertama; // Jalankan Program Pertama
+  programKedua;   // Jalankan Program Kedua
+
+  closeGraph;
+end.
