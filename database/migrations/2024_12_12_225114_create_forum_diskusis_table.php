@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('forum_diskusis', function (Blueprint $table) {
             $table->id('id_forum'); // Kolom id_forum sebagai Primary Key
             $table->unsignedBigInteger('id_user');
-            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->string('judul', 255); // Kolom judul untuk menyimpan judul forum diskusi
             $table->enum('kategori', ['personal', 'kelompok', 'umum']); // Kolom kategori untuk menyimpan jenis diskusi
             $table->dateTime('tanggal_dibuat'); // Kolom tanggal_dibuat untuk menyimpan waktu forum dibuat

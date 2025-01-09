@@ -4,6 +4,7 @@
 
 <div class="container my-5">
     <h1 class="text-center mb-4 font-weight-bold text-white" style="font-size: 2.5rem; text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);">Tambah Akun Mahasiswa</h1>
+    <h3 class="text-center mb-4 font-weight-bold text-white" style="font-size: 2.5rem; text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);">Tambah Akun Mahasiswa</h3>
     <div class="card p-5 shadow-lg rounded-lg border-0" style="background: linear-gradient(to right, #555, #333); max-width: 1200px; width: 100%; margin: auto; height: 600px; overflow-y: auto;">
         <form action="{{ route('mahasiswas.store') }}" method="POST">
             @csrf
