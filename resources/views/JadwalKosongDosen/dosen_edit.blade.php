@@ -1,8 +1,8 @@
-@extends('layouts.mylayoutdosen',['title' => 'Tambah Data Jadwal Dosen'])
+@extends('layouts.mylayoutdosen', ['title' => 'Tambah Data Jadwal Dosen'])
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Edit Data Jadwal <b>{{$jadwal_kosong_dosen->dosen->nama}}</b></h5>
+            <h3 class="card-title">Edit Data Jadwal <b>{{$jadwal_kosong_dosen->dosen->nama}}</b></h3>
             <form action="/JadwalKosongDosen/{{ $jadwal_kosong_dosen->id_jadwal_kosong }}" method="POST">
                 @method('PUT')
                 @csrf

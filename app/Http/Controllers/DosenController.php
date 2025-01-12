@@ -12,9 +12,18 @@ class DosenController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('dosen_index');
+{
+    $user = auth()->user();
+
+    // Pastikan hanya data dosen sesuai pengguna login yang diambil
+    if ($user->status === 'dosen') {
+        $data['dosen'] = \App\Models\Dosen::where('email', $user->email)->paginate(10);
+    } else {
+        abort(403, 'Akses ditolak.');
     }
+
+    return view('dosen_index', $data);
+}
 
     /**
      * Show the form for creating a new resource.

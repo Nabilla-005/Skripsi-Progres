@@ -21,6 +21,11 @@ class dosen extends Model
     {
         return $this->hasMany(Jadwalkosong::class, 'id_dosen');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'email', 'email');
+    }
  
      // Menonaktifkan auto-increment untuk primary key jika tidak ingin menggunakan auto-increment
      // public $incrementing = false;

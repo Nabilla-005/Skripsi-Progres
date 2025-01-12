@@ -12,12 +12,20 @@ class MahasiswaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $data['jadwal_kosong_dosen'] = \App\Models\jadwal_kosong_dosen::latest()->paginate(10);
-        
-        return view('mahasiswa_index', $data);
+{
+    $user = auth()->user();
+
+    if ($user->status === 'mahasiswa') {
+        $data['mahasiswa'] = \App\Models\Mahasiswa::where('email', $user->email)->paginate(10);
+
+    } else {
+        abort(403, 'Akses ditolak.');
     }
 
+    return view('mahasiswa_index', $data);
+}
+
+    
     /**
      * Show the form for creating a new resource.
      *

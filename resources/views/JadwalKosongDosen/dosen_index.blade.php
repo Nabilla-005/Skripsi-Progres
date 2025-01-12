@@ -1,6 +1,9 @@
-@extends('layouts.mylayoutdosen',['title' => 'Jadwal Dosen'])
+
+@extends('layouts.mylayoutdosen', ['title' => 'Jadwal Dosen'])
+
 @section('content')
-   <div class="card">
+<div class="card">
+>>>>>>> d1d7e3b (mahasiswa, dosen, login)
     <div class="card-body">
         <h3>Jadwal Kosong Dosen</h3>
         <a href="/JadwalKosongDosen/create" class="btn btn-primary">Tambah Jadwal</a>
@@ -28,22 +31,24 @@
                         <td>{{ $item->waktu_selesai }}</td>
                         <td>{{ $item->status }}</td>
                         <td>
-                            <a href="/JadwalKosongDosen/{{ $item->id_jadwal_kosong }}/edit" class= "btn btn-info btn-sm ml-2">Edit</a>
-                            <form action="/JadwalKosongDosen/{{ $item->id_jadwal_kosong }}" method="post" class="d-inline">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Yakin untuk menghapus data?')">
-                                    Hapus
-                                </button>
-                            </form>
+                            @if(auth()->user()->status === 'dosen' && auth()->user()->dosen->id_dosen === $item->id_dosen)
+                                <a href="/JadwalKosongDosen/{{ $item->id_jadwal_kosong }}/edit" class="btn btn-info btn-sm ml-2">Edit</a>
+                                <form action="/JadwalKosongDosen/{{ $item->id_jadwal_kosong }}" method="post" class="d-inline">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Yakin untuk menghapus data?')">
+                                        Hapus
+                                    </button>
+                                </form>
+                            @endif
                         </td>
-                        <td></td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        {!! $jadwal_kosong_dosen->links() !!}
+        
+        {!! $jadwal_kosong_dosen instanceof \Illuminate\Pagination\LengthAwarePaginator ? $jadwal_kosong_dosen->links() : '' !!}
     </div>
 </div>
 @endsection
