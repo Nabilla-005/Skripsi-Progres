@@ -14,7 +14,7 @@ class mahasiswa extends Model
     protected $table = 'mahasiswas';
 
      // Menentukan kolom yang bisa diisi secara massal
-     protected $fillable = ['nim', 'nama', 'program_studi', 'email', 'password'];
+     protected $fillable = ['nim', 'nama', 'program_studi', 'email', 'password', 'status'];
  
      // Menentukan kolom id_mahasiswa sebagai primary key
      protected $primaryKey = 'id_mahasiswa';
@@ -42,4 +42,9 @@ class mahasiswa extends Model
         return $this->belongsTo(User::class, 'email', 'email');
     }
 
+    // Scope for filtering status
+    public function scopeByStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
 }

@@ -8,7 +8,7 @@
 </head>
 
 <style>
-    body, html {
+   body, html {
         height: 100%;
         margin: 0;
         padding: 0;
@@ -48,6 +48,11 @@
         border-color: #fd7e14;
     }
 
+    .btn-success {
+        background-color: rgba(160, 0, 95, 0.9);
+        border-color: rgba(160, 0, 95, 0.9);
+    }
+
     .btn:hover {
         opacity: 0.8;
     }
@@ -76,55 +81,47 @@
 </style>
 
 <div class="container my-4">
-    <h1>Tambah Jadwal Kosong</h1>
+    <h1>Ubah Password</h1>
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <div class="card p-4 shadow-lg rounded-4">
-        <form action="{{ route('store.jadwalkosong') }}" method="POST">
+        <form method="POST" action="{{ route('password.edit') }}">
             @csrf
+            @method('PUT')
 
-            <!-- Dosen -->
             <div class="form-group mb-3">
-                <label for="id_dosen" class="form-label">Dosen:</label>
-                <select name="id_dosen" id="id_dosen" class="form-control">
-                    @foreach ($dosen as $item)
-                        <option value="{{ $item->id_dosen }}">{{ $item->nama }}</option>
-                    @endforeach
-                </select>
+                <label for="current_password" class="form-label">Password Lama</label>
+                <input type="password" class="form-control" id="current_password" name="current_password" required>
             </div>
 
-            <!-- Tanggal -->
             <div class="form-group mb-3">
-                <label for="tanggal" class="form-label">Tanggal:</label>
-                <input type="date" name="tanggal" id="tanggal" class="form-control">
+                <label for="password" class="form-label">Password Baru</label>
+                <input type="password" class="form-control" id="password" name="password" required>
             </div>
 
-            <!-- Waktu Mulai -->
             <div class="form-group mb-3">
-                <label for="waktu_mulai" class="form-label">Waktu Mulai:</label>
-                <input type="time" name="waktu_mulai" id="waktu_mulai" class="form-control">
+                <label for="password_confirmation" class="form-label">Konfirmasi Password Baru</label>
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
             </div>
 
-            <!-- Waktu Selesai -->
-            <div class="form-group mb-3">
-                <label for="waktu_selesai" class="form-label">Waktu Selesai:</label>
-                <input type="time" name="waktu_selesai" id="waktu_selesai" class="form-control">
-            </div>
-
-            <!-- Status -->
-            <div class="form-group mb-3">
-                <label for="status" class="form-label">Status:</label>
-                <select name="status" id="status" class="form-control">
-                    <option value="tersedia">Tersedia</option>
-                    <option value="penuh">Penuh</option>
-                </select>
-            </div>
-
-            <!-- Tombol Submit -->
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save me-2"></i> Simpan
-                </button>
-            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i> Simpan
+            </button>
         </form>
     </div>
 </div>

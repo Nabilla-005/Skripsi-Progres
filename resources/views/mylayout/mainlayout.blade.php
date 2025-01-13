@@ -92,35 +92,29 @@
         <img src="https://via.placeholder.com/40" alt="Logo" class="me-2">
         <span class="fw-bold text-dark">PROGRES SKRIPSI</span>
       </a>
-      <!-- User Profile & Notification -->
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav align-items-center">
-          <!-- Notifikasi Dropdown -->
-          <li class="nav-item dropdown me-3 position-relative">
-            <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-bell fs-4 text-dark"></i>
-              <span class="notification-badge">3</span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
-              <li><a class="dropdown-item" href="#">Notifikasi 1</a></li>
-              <li><a class="dropdown-item" href="#">Notifikasi 2</a></li>
-              <li><a class="dropdown-item" href="#">Notifikasi 3</a></li>
-            </ul>
-          </li>
-          <!-- Profil Dropdown -->
-          <li class="nav-item dropdown">
+      <!-- User Profile -->
+<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <ul class="navbar-nav align-items-center">
+        <!-- Profil Dropdown -->
+        <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle fw-bold text-dark" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Hello, <span class="text-primary">Admin</span>
-              <i class="bi bi-person-circle fs-4 ms-1"></i>
+                Hello, <span style="color: rgb(160, 0, 95);">{{ Auth::user()->name }}</span>
+                <i class="bi bi-person-circle fs-4 ms-1"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-              <li><a class="dropdown-item" href="#">Profil Saya</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item text-danger" href="#">Keluar</a></li>
+                <li><a class="dropdown-item" href="{{ route('ProfilAdmin.index') }}">Profil Saya</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item text-danger">Keluar</button>
+                    </form>
+                </li>
             </ul>
-          </li>
-        </ul>
-      </div>
+        </li>
+    </ul>
+</div>
+
     </div>
   </nav>
 
@@ -133,7 +127,7 @@
         <h5>MENU UTAMA</h5>
       </div>
       <nav>
-        <a href="{{ route('beranda') }}" class="menu-item" active data-section="beranda">
+        <a href="{{ route('dashboard') }}" class="menu-item" active data-section="dashboard">
           <i class="bi bi-house-door"></i> Beranda
         </a>
         <h6 class="mt-4">UTILITY</h6>
@@ -148,9 +142,6 @@
         </a>
         <a href="{{ route('manajemen_skripsi_mahasiswa') }}" class="menu-item" active data-section="manajemen-skripsi-mahasiswa">
           <i class="bi bi-bookmark-star"></i> Manajemen Skripsi Mahasiswa
-        </a>
-        <a href="{{ route('manajemen_forum_diskusi') }}" class="menu-item" active data-section="manajemen-forum-diskusi">
-          <i class="bi bi-chat-square-dots"></i> Manajemen Forum Diskusi
         </a>
         <a href="{{ route('feedback&penilaian') }}" class="menu-item" active data-section="feedback-penilaian">
           <i class="bi bi-pencil-square"></i> Feedback & Penilaian

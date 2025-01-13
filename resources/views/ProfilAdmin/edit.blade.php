@@ -8,7 +8,7 @@
 </head>
 
 <style>
-    body, html {
+   body, html {
         height: 100%;
         margin: 0;
         padding: 0;
@@ -81,7 +81,7 @@
 </style>
 
 <div class="container my-4">
-    <h1>Edit Data Dosen</h1>
+    <h1>Edit Profil</h1>
 
     @if (session('success'))
         <div class="alert alert-success">
@@ -90,40 +90,23 @@
     @endif
 
     <div class="card p-4 shadow-lg rounded-4">
-        <form action="{{ route('dosens.update', $dosen->id_dosen) }}" method="POST">
+        <form action="{{ route('ProfilAdmin.update') }}" method="POST">
             @csrf
             @method('PUT')
 
-            <!-- NIP -->
             <div class="form-group mb-3">
-                <label for="nip" class="form-label">NIP:</label>
-                <input type="text" id="nip" name="nip" class="form-control" value="{{ $dosen->nip }}" required>
+                <label for="name" class="form-label">Nama</label>
+                <input type="text" id="name" name="name" class="form-control" value="{{ $user->name }}" required>
             </div>
 
-            <!-- Nama -->
             <div class="form-group mb-3">
-                <label for="nama" class="form-label">Nama:</label>
-                <input type="text" id="nama" name="nama" class="form-control" value="{{ $dosen->nama }}" required>
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-control" value="{{ $user->email }}" required>
             </div>
 
-            <!-- Fakultas -->
-            <div class="form-group mb-3">
-                <label for="fakultas" class="form-label">Fakultas:</label>
-                <input type="text" id="fakultas" name="fakultas" class="form-control" value="{{ $dosen->fakultas }}" required>
-            </div>
-
-            <!-- Email -->
-            <div class="form-group mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" id="email" name="email" class="form-control" value="{{ $dosen->email }}" required>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="text-center">
-                <button type="submit" class="btn btn-success">
-                    <i class="fas fa-save me-2"></i> Update
-                </button>
-            </div>
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save me-2"></i> Simpan
+            </button>
         </form>
     </div>
 </div>
