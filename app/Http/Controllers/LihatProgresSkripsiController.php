@@ -80,7 +80,8 @@ class LihatProgresSkripsiController extends Controller
         $search = $request->input('search');
         $query->whereHas('mahasiswa', function ($q) use ($search) {
             $q->where('nama', 'LIKE', "%$search%")
-              ->orWhere('nim', 'LIKE', "%$search%");
+              ->orWhere('nim', 'LIKE', "%$search%")
+              ->orWhere('tanggal_upload', 'LIKE', "%$search%");
         });
     }
 

@@ -9,7 +9,7 @@
     @endif
 
     <!-- Form Pencarian -->
-    <form action="{{ route('ProgresSkripsi.index') }}" method="GET" class="mb-4">
+    <form action="{{ route('LihatProgresSkripsi.index') }}" method="GET" class="mb-4">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Cari Progres" value="{{ request('search') }}">
             <button type="submit" class="btn btn-primary">Cari</button>
@@ -35,8 +35,9 @@
                     <td>{{ $progres->mahasiswa->nim }}</td>
                     <td>{{ $progres->tanggal_upload }}</td>
                     <td>
-                        <a href="{{ Storage::url($progres->file_path) }}" target="_blank">Download File</a>
-                    </td>
+                    <a href="{{ route('ProgresSkripsi.download', $progres->id_progres) }}" target="_blank">Download File</a>
+                </td>
+
                     <td>
                         <form action="{{ route('LihatProgresSkripsi.destroy', $progres->id_progres) }}" method="POST" style="display:inline;" onsubmit="return confirmDeletion();">
                             @csrf

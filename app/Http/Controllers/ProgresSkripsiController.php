@@ -40,12 +40,14 @@ class ProgresSkripsiController extends Controller
     }
 
     // Simpan file ke storage
-    $filePath = $request->file('file')->store('progres_skripsi');
+    $uploadedFile = $request->file('file');
+    $filePath = $uploadedFile->store('progres_skripsi');
 
     // Simpan data ke database progres_skripsis
     ProgresSkripsi::create([
-        'id_mahasiswa' => $mahasiswa->id_mahasiswa, // id_mahasiswa dari tabel mahasiswas
+        'id_mahasiswa' => $mahasiswa->id_mahasiswa,
         'file_path' => $filePath,
+        'file_name' => $uploadedFile->getClientOriginalName(), // Nama file asli
         'tanggal_upload' => now(),
         'komentar' => $request->input('komentar', ''), // Opsional jika komentar kosong
     ]);

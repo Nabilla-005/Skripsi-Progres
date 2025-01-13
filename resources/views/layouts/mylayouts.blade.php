@@ -122,6 +122,4 @@
 
 
 </body>
-
->>>>>>> d1d7e3b (mahasiswa, dosen, login)
 </html>

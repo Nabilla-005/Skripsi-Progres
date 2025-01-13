@@ -32,8 +32,6 @@
                     <td>{{ $item->id_jadwal_kosong }}</td>
                     <td>{{ $item->tanggal_pengajuan }}</td>
                     <td>{{ $item->status_pengajuan }}</td>
-                    <td>
-                    </td>
                 </tr>
                 @endforeach
             </tbody>

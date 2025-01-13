@@ -21,7 +21,7 @@
                 <div class="form-group mt-1 mb-3">
                     <label for="id_jadwal_kosong">Jadwal Kosong Dosen</label>
                     <select class="form-control @error('id_jadwal_kosong') is-invalid @enderror" id="id_jadwal_kosong" name="id_jadwal_kosong">
-                        <option value="">-- ID Jadwal Sesuai Tabel Jadwal Dosen --</option>
+                        <option value="">-- ID Jadwal Dosen --</option>
                         @foreach ($jadwal_kosong as $jadwal)
                             <option value="{{ $jadwal->id_jadwal_kosong }}" {{ old('id_jadwal_kosong') == $jadwal->id_jadwal_kosong ? 'selected' : '' }}>
                                 {{ $jadwal->id_jadwal_kosong }} <!-- Menampilkan nama dosen -->
