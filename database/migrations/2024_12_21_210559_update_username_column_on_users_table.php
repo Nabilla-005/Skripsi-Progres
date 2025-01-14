@@ -1,21 +1,32 @@
+<?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDefaultValueToUsernameColumn extends Migration
+class UpdateUsernameColumnOnUsersTable extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->string('username')->default('default_username')->change();
-    });
-}
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('username')->nullable()->change();
+        });
+    }
 
-public function down()
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->string('username')->nullable()->change(); // atur ke nilai semula jika rollback
-    });
-}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('username')->nullable(false)->change();
+        });
+    }
 }
