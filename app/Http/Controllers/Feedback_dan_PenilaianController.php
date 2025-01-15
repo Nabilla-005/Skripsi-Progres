@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\feedback_skripsi;
 use App\Models\ProgresSkripsi;
 use Illuminate\Http\Request;
@@ -34,4 +33,3 @@ class Feedback_dan_PenilaianController extends Controller
 }
 
 }
-

@@ -1,50 +1,39 @@
-@extends('mylayout.mainlayout')
+<?php
 
-@section('content')
+namespace App\Models;
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback dan Penilaian</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Feedback dan Penilaian</h1>
-        
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>No</th>
-                    <th>Nama Mahasiswa</th>
-                    <th>Progres Skripsi</th>
-                    <th>Komentar Feedback</th>
-                    <th>Penilaian</th>
-                    <th>Tanggal Upload</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($allFeedback as $feedback)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $feedback->progres->mahasiswa->nama ?? 'Tidak diketahui' }}</td>
-                        <td><a href="{{ asset($feedback->progres->file_path) }}" target="_blank">Lihat Progres</a></td>
-                        <td>{{ $feedback->komentar }}</td>
-                        <td>{{ $feedback->penilaian }}</td>
-                        <td>{{ $feedback->progres->tanggal_upload }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="text-center">Tidak ada data feedback dan penilaian.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-@endsection
+class feedback_skripsi extends Model
+{
+    use HasFactory;
+
+    // Tabel yang digunakan (opsional, karena Laravel sudah bisa mendeteksi ini)
+    protected $table = 'feedback_skripsis';
+
+    // Kolom yang boleh diisi secara massal
+    protected $fillable = [
+        'id_progres',
+        'komentar',
+        'penilaian',
+    ];
+
+    // Kolom yang tidak boleh diubah secara massal
+    protected $guarded = ['id_feedback']; // 'id_feedback' tidak boleh diisi secara massal
+
+    // Menetapkan relasi dengan tabel ProgresSkripsi
+    public function progres()
+    {
+        return $this->belongsTo(ProgresSkripsi::class, 'id_progres', 'id_progres');
+    }
+
+    // Menetapkan relasi kebalikannya, yaitu ke Mahasiswa
+    public function mahasiswa()
+    {
+        return $this->belongsToThrough(mahasiswa::class, ProgresSkripsi::class);
+    }
+
+    // Jika diperlukan, Anda bisa menambahkan aksesori untuk manipulasi data sebelum disimpan atau ditampilkan
+    // Misalnya: untuk format penilaian atau komentar
+}

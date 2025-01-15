@@ -1,191 +1,147 @@
 @extends('mylayout.mainlayout')
 
 @section('content')
-<style>
-    body {
-        background: url('/path/to/your/background.jpg') no-repeat center center fixed;
-        background-size: cover;
-        font-family: 'Arial', sans-serif;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafik Sistem</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* Menambahkan overflow agar halaman bisa di-scroll */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-    .container {
-        background-color: rgba(255, 255, 255, 0.9); /* Transparan putih untuk kontras dengan background */
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Efek bayangan */
-    }
+        .container {
+            max-height: 100vh;
+            overflow-y: auto;
+            padding-bottom: 50px; /* Untuk memberi ruang jika konten terlalu panjang */
+        }
 
-    h1 {
-        color: #343a40; /* Abu-abu tua */
-        font-weight: bold;
-    }
+        .card {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="text-center my-4">Grafik Sistem</h1>
 
-    .card {
-        border: none;
-        border-radius: 8px;
-        transition: transform 0.3s, box-shadow 0.3s;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan */
-    }
-
-    .card:hover {
-        transform: scale(1.05); /* Efek zoom saat hover */
-        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Perbesar bayangan */
-    }
-
-    .card-title {
-        font-size: 2.5rem; /* Ukuran teks besar */
-        font-weight: bold;
-    }
-
-    .card-footer {
-        text-align: right;
-    }
-
-    .card-footer a {
-        font-weight: bold;
-        text-decoration: none;
-        transition: color 0.3s;
-    }
-
-    .card-footer a:hover {
-        text-decoration: underline;
-    }
-
-    .text-white {
-        color: #ffffff !important;
-    }
-
-    .text-dark {
-        color: #343a40 !important;
-    }
-
-    .bg-light {
-        background-color: rgb(253, 222, 238) !important;
-    }
-
-    .bg-dark {
-        background-color: rgb(181, 225, 174) !important;
-    }
-
-    .bg-success {
-        background-color: rgb(148, 168, 208) !important;
-    }
-
-    .bg-primary {
-        background-color: rgb(193, 179, 215) !important;
-    }
-
-    .bg-info {
-        background-color: rgb(219, 213, 185) !important;
-    }
-
-    .bg-danger {
-        background-color: rgb(251, 182, 209) !important;
-    }
-
-    .bg-warning {
-        background-color: rgb(255, 250, 129) !important;
-    }
-
-    .bg-secondary {
-        background-color: rgb(25, 182, 174) !important;
-    }
-</style>
-
-<div class="container mt-4">
-    <h1 class="text-center mb-4">Beranda</h1>
-    <div class="row">
-        <!-- Box 1 -->
-        <div class="col-md-3">
-            <div class="card bg-success text-dark">
-                <div class="card-body">
-                    <p>Manajemen Akun Mahasiswa</p>
+        <!-- Card Statistik -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Mahasiswa</h5>
+                        <p class="card-text display-4">{{ $totalMahasiswa }}</p>
+                    </div>
                 </div>
-                <div class="card-footer bg-transparent">
-                    <a href="{{ route('manajemen_akun_mahasiswa') }}" class="text-white">Selengkapnya &rarr;</a>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Dosen</h5>
+                        <p class="card-text display-4">{{ $totalDosen }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Jadwal</h5>
+                        <p class="card-text display-4">{{ $totalJadwal }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Feedback dan Penilaian</h5>
+                        <p class="card-text display-4">{{ $totalFeedback }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Forum Diskusi</h5>
+                        <p class="card-text display-4">{{ $totalForumDiskusi }}</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- Box 2 -->
-        <div class="col-md-3">
-            <div class="card bg-primary text-dark">
-                <div class="card-body">
-                    <p>Manajemen Akun Dosen</p>
-                </div>
-                <div class="card-footer bg-transparent">
-                    <a href="{{ route('manajemen_akun_dosen') }}" class="text-white">Selengkapnya &rarr;</a>
-                </div>
+
+        <!-- Grafik -->
+        <h2 class="text-center mb-4">Grafik Statistik</h2>
+        <div class="d-flex justify-content-center">
+            <div style="max-width: 600px; width: 100%;">
+                <canvas id="statsChart"></canvas>
             </div>
         </div>
-        <!-- Box 3 -->
-        <div class="col-md-3">
-            <div class="card bg-info text-dark">
-                <div class="card-body">
-                    <p>Manajemen Jadwal Dosen</p>
-                </div>
-                <div class="card-footer bg-transparent">
-                    <a href="{{ route('manajemen_jadwal_dosen') }}" class="text-white">Selengkapnya &rarr;</a>
-                </div>
-            </div>
-        </div>
-        <!-- Box 4 -->
-        <div class="col-md-3">
-            <div class="card bg-danger text-dark">
-                <div class="card-body">
-                    <p>Manajemen Skripsi Mahasiswa</p>
-                </div>
-                <div class="card-footer bg-transparent">
-                    <a href="{{ route('manajemen_skripsi_mahasiswa') }}" class="text-white">Selengkapnya &rarr;</a>
-                </div>
-            </div>
-        </div>
+        <p class="text-center mt-3">Grafik di atas menunjukkan jumlah total mahasiswa, dosen, dan jadwal dalam sistem.</p>
     </div>
-    <div class="row mt-3">
-        <!-- Box 5 -->
-        <div class="col-md-3">
-            <div class="card bg-warning text-dark">
-                <div class="card-body">
-                    <p>Manajemen Forum Diskusi</p>
-                </div>
-                <div class="card-footer bg-transparent">
-                    <a href="{{ route('manajemen_forum_diskusi') }}" class="text-white">Selengkapnya &rarr;</a>
-                </div>
-            </div>
-        </div>
-        <!-- Box 6 -->
-        <div class="col-md-3">
-            <div class="card bg-secondary text-dark">
-                <div class="card-body">
-                    <p>Feedback & Penilaian</p>
-                </div>
-                <div class="card-footer bg-transparent">
-                    <a href="{{ route('feedback&penilaian') }}" class="text-white">Selengkapnya &rarr;</a>
-                </div>
-            </div>
-        </div>
-        <!-- Box 7 -->
-        <div class="col-md-3">
-            <div class="card bg-dark text-dark">
-                <div class="card-body">
-                    <p>Statistik</p>
-                </div>
-                <div class="card-footer bg-transparent">
-                    <a href="{{ route('statistik&laporan') }}" class="text-white">Selengkapnya &rarr;</a>
-                </div>
-            </div>
-        </div>
-         <!-- Box 8 -->
-         <div class="col-md-3">
-            <div class="card bg-light text-dark">
-                <div class="card-body">
-                    <p>Pengaturan Sistem</p>
-                </div>
-                <div class="card-footer bg-transparent">
-                    <a href="{{ route('pengaturan_sistem') }}" class="text-white">Selengkapnya &rarr;</a>
-                </div>
-            </div>
-        </div>
-        <!-- Add other boxes with their respective routes -->
-    </div>
-</div>
+
+    <!-- Script Chart.js -->
+    <script>
+        const ctx = document.getElementById('statsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Mahasiswa', 'Dosen', 'Jadwal', 'Feedback', 'ForumDiskusi',],
+                datasets: [{
+                    label: 'Jumlah',
+                    data: [{{ $totalMahasiswa }}, {{ $totalDosen }}, {{ $totalJadwal }}, {{ $totalFeedback }}, {{ $totalForumDiskusi}}, ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        'rgba(255, 159, 64, 0.5)',
+                        'rgba(75, 19, 192, 0.5)',
+                        'rgba(153, 10, 255, 0.5)',
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(123, 239, 127, 0.5)',
+                        'rgba(210, 116, 159, 0.5)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: true,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Jumlah'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Kategori'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
 @endsection

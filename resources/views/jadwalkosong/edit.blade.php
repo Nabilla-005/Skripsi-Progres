@@ -1,71 +1,84 @@
-@extends('mylayout.mainlayout')
-
+@extends('layouts.mylayoutdosen', ['title' => 'Tambah Data Jadwal Dosen'])
 @section('content')
-
-<!-- Container with scroll effect -->
-<div class="container mt-5 d-flex justify-content-center">
-    <div class="w-100" style="max-width: 500px; height: 100%; overflow-y: auto;">
-
-        <!-- Title with dark gray and slight effect -->
-        <h1 class="mb-4 text-center fw-bold" style="font-size: 2rem; color: #333; text-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
-            Edit Jadwal Kosong
-        </h1>
-
-        <!-- Card with white background and slight dark gradient -->
-        <div class="card p-3 shadow-lg rounded-3" style="background: linear-gradient(to right, #f7f7f7, #e0e0e0);">
-
-            <form action="{{ route('update.jadwalkosong', $jadwal->id_jadwal_kosong) }}" method="POST">
-                @csrf
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Edit Data Jadwal <b>{{$jadwal_kosong_dosen->dosen->nama}}</b></h3>
+            <form action="/JadwalKosongDosen/{{ $jadwal_kosong_dosen->id_jadwal_kosong }}" method="POST">
                 @method('PUT')
-
-                <!-- Dosen -->
-                <div class="form-group mb-2">
-                    <label for="id_dosen" class="form-label" style="font-size: 1rem; color: #555;">Dosen</label>
-                    <select name="id_dosen" id="id_dosen" class="form-control form-control-lg" style="border-radius: 15px; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);">
-                        @foreach ($dosen as $item)
-                            <option value="{{ $item->id_dosen }}" {{ $jadwal->id_dosen == $item->id_dosen ? 'selected' : '' }}>
-                                {{ $item->nama }}
+                @csrf
+                <div class="form-group mt-1 mb-3">
+                    <label for="id_dosen">ID Dosen</label>
+                    <select class="form-control @error('id_dosen') is-invalid @enderror" id="id_dosen" name="id_dosen">
+                        <option value="">-- Pilih Dosen --</option>
+                        @foreach ($dosens as $dosen)
+                            <option value="{{ $dosen->id_dosen }}" {{ old('id_dosen') ?? $jadwal_kosong_dosen->id_dosen == $dosen->id_dosen ? 'selected' : '' }}>
+                                {{ $dosen->nama }}
                             </option>
                         @endforeach
                     </select>
+                    <span class="text-danger">{{ $errors->first('id_dosen') }}</span>
                 </div>
 
-                <!-- Tanggal -->
-                <div class="form-group mb-2">
-                    <label for="tanggal" class="form-label" style="font-size: 1rem; color: #555;">Tanggal</label>
-                    <input type="date" name="tanggal" id="tanggal" class="form-control form-control-lg" value="{{ $jadwal->tanggal }}" style="border-radius: 15px; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);">
+                <div class="form-group mt-1 mb-3">
+                    <label for="tanggal">Tanggal</label>
+                    <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal"
+                        name="tanggal" value="{{ old('tanggal') ?? $jadwal_kosong_dosen->tanggal }}">
+                    <span class="text-danger">{{ $errors->first('tanggal') }}</span>
                 </div>
-
-                <!-- Waktu Mulai -->
-                <div class="form-group mb-2">
-                    <label for="waktu_mulai" class="form-label" style="font-size: 1rem; color: #555;">Waktu Mulai</label>
-                    <input type="time" name="waktu_mulai" id="waktu_mulai" class="form-control form-control-lg" value="{{ $jadwal->waktu_mulai->format('H:i:s') }}" step="1" style="border-radius: 15px; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);">
+                <div class="form-group mt-1 mb-3">
+                    <label for="waktu_mulai">Waktu Mulai</label>
+                    <input type="time" class="form-control @error('waktu_mulai') is-invalid @enderror" id="waktu_mulai"
+                        name="waktu_mulai" value="{{ old('waktu_mulai') ?? $jadwal_kosong_dosen->waktu_mulai }}">
+                    <span class="text-danger">{{ $errors->first('waktu_mulai') }}</span>
                 </div>
-
-                <!-- Waktu Selesai -->
-                <div class="form-group mb-2">
-                    <label for="waktu_selesai" class="form-label" style="font-size: 1rem; color: #555;">Waktu Selesai</label>
-                    <input type="time" name="waktu_selesai" id="waktu_selesai" class="form-control form-control-lg" value="{{ $jadwal->waktu_selesai->format('H:i:s') }}" step="1" style="border-radius: 15px; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);">
+                <div class="form-group mt-1 mb-3">
+                    <label for="waktu_selesai">Waktu Selesai</label>
+                    <input type="time" class="form-control @error('waktu_selesai') is-invalid @enderror" id="waktu_selesai"
+                        name="waktu_selesai" value="{{ old('waktu_selesai') ?? $jadwal_kosong_dosen->waktu_selesai }}">
+                    <span class="text-danger">{{ $errors->first('waktu_selesai') }}</span>
                 </div>
-
-                <!-- Status -->
-                <div class="form-group mb-2">
-                    <label for="status" class="form-label" style="font-size: 1rem; color: #555;">Status</label>
-                    <select name="status" id="status" class="form-control form-control-lg" style="border-radius: 15px; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);">
-                        <option value="tersedia" {{ $jadwal->status == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
-                        <option value="penuh" {{ $jadwal->status == 'penuh' ? 'selected' : '' }}>Penuh</option>
+                <div class="form-group mt-1 mb-3">
+                    <label for="status">Status</label>
+                    <select class="form-control @error('status') is-invalid @enderror" id="status" name="status">
+                        <option value="">-- Pilih Status --</option>
+                        <option value="tersedia" {{ old('status') ?? $jadwal_kosong_dosen->status == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                        <option value="penuh" {{ old('status') ?? $jadwal_kosong_dosen->status == 'penuh' ? 'selected' : '' }}>Penuh</option>
                     </select>
+                    <span class="text-danger">{{ $errors->first('status') }}</span>
                 </div>
-
-                <!-- Submit Button -->
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg" style="border-radius: 30px; padding: 12px 40px; font-size: 1.2rem; transition: all 0.3s ease-in-out;">
-                        <i class="fas fa-save me-2"></i> Perbarui
-                    </button>
-                </div>
+                <button type="submit" class="btn btn-primary mt-2">Simpan</button>
             </form>
+            <script>
+                document.getElementById('jadwalForm').addEventListener('submit', function(event) {
+    var waktuMulai = document.getElementById('waktu_mulai').value;
+    var waktuSelesai = document.getElementById('waktu_selesai').value;
+
+    function convertTo24HourFormat(time) {
+        var timeParts = time.split(' ');  // AM/PM
+        var timeValues = timeParts[0].split(':');  // Jam dan Menit
+        var hour = parseInt(timeValues[0]);
+        var minute = timeValues[1];
+        
+        if (timeParts[1] === 'PM' && hour !== 12) {
+            hour += 12;
+        } else if (timeParts[1] === 'AM' && hour === 12) {
+            hour = 0;
+        }
+
+        return hour.toString().padStart(2, '0') + ':' + minute;
+    }
+
+    // Cek dan konversi waktu jika menggunakan format AM/PM
+    if (waktuMulai.includes('AM') || waktuMulai.includes('PM')) {
+        document.getElementById('waktu_mulai').value = convertTo24HourFormat(waktuMulai);
+    }
+
+    if (waktuSelesai.includes('AM') || waktuSelesai.includes('PM')) {
+        document.getElementById('waktu_selesai').value = convertTo24HourFormat(waktuSelesai);
+    }
+});
+
+</script>
         </div>
     </div>
-</div>
-
 @endsection

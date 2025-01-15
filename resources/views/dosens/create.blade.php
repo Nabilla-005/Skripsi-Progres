@@ -1,71 +1,158 @@
 @extends('mylayout.mainlayout')
 
 @section('content')
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Menambahkan link Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
 
-<div class="container my-5 d-flex justify-content-center" style="background: linear-gradient(to right, #757575, #424242); min-height: 100vh;">
-    <div class="w-100" style="max-width: 600px;">
-        <!-- Judul Halaman -->
-        <h1 class="text-center mb-4" style="font-size: 2.5rem; color: #f5f5f5; font-weight: bold; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">Tambah Akun Dosen</h1>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
 
-        <!-- Form Input -->
-        <div class="card p-4 shadow-lg rounded-4" style="background-color: #ffffff; max-height: 80vh; overflow-y: auto;">
-            <form action="{{ route('dosens.store') }}" method="POST">
-                @csrf
+    .container {
+        width: 1000px;
+        max-height: 100vh;
+        overflow-y: auto;
+        padding-bottom: 50px;
+    }
 
-                <!-- NIP -->
-                <div class="form-group mb-4">
-                    <label for="nip" class="form-label" style="font-size: 1.1rem; color: #424242;">NIP</label>
-                    <input type="text" name="nip" id="nip" class="form-control form-control-lg" value="{{ old('nip') }}" placeholder="Masukkan NIP" style="border-radius: 30px; background-color: #f1f1f1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                    @error('nip')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
 
-                <!-- Nama -->
-                <div class="form-group mb-4">
-                    <label for="nama" class="form-label" style="font-size: 1.1rem; color: #424242;">Nama</label>
-                    <input type="text" name="nama" id="nama" class="form-control form-control-lg" value="{{ old('nama') }}" placeholder="Masukkan Nama" style="border-radius: 30px; background-color: #f1f1f1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                    @error('nama')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
+    .form-label {
+        font-size: 1.1rem;
+        color: rgb(160, 0, 95);
+    }
 
-                <!-- Fakultas -->
-                <div class="form-group mb-4">
-                    <label for="fakultas" class="form-label" style="font-size: 1.1rem; color: #424242;">Fakultas</label>
-                    <input type="text" name="fakultas" id="fakultas" class="form-control form-control-lg" value="{{ old('fakultas') }}" placeholder="Masukkan Fakultas" style="border-radius: 30px; background-color: #f1f1f1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                    @error('fakultas')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
+    .form-control {
+        border-radius: 10px;
+        border: 2px solid rgba(160, 0, 95, 0.8);
+    }
 
+    .btn {
+        border-radius: 30px;
+        padding: 10px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-primary {
+        background-color: #fd7e14;
+        border-color: #fd7e14;
+    }
+
+    .btn-success {
+        background-color: rgba(160, 0, 95, 0.9);
+        border-color: rgba(160, 0, 95, 0.9);
+    }
+
+    .btn:hover {
+        opacity: 0.8;
+    }
+
+    h1 {
+        font-size: 2.8rem;
+        font-weight: 600;
+        color: rgb(160, 0, 95);
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .card {
+        max-width: 900px;
+        padding: 30px;
+        border: 2px solid rgba(160, 0, 95, 0.8);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        margin: 0 auto;
+        background-color: #ffffff;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+    }
+
+    /* Layout grid untuk menyusun form input */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .col-half {
+        flex: 0 0 48%;
+    }
+</style>
+
+<div class="container my-4">
+    <h1 class="text-center mb-4">Tambah Akun Dosen</h1>
+
+    <div class="card p-4 shadow-lg rounded-4">
+        <form action="{{ route('dosens.store') }}" method="POST">
+            @csrf
+
+            <!-- NIP -->
+            <div class="form-group mb-3">
+                <label for="nip" class="form-label">NIP</label>
+                <input type="text" name="nip" id="nip" class="form-control" value="{{ old('nip') }}" placeholder="Masukkan NIP">
+                @error('nip')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <!-- Nama -->
+            <div class="form-group mb-3">
+                <label for="nama" class="form-label">Nama</label>
+                <input type="text" name="nama" id="nama" class="form-control" value="{{ old('nama') }}" placeholder="Masukkan Nama">
+                @error('nama')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <!-- Fakultas -->
+            <div class="form-group mb-3">
+                <label for="fakultas" class="form-label">Fakultas</label>
+                <input type="text" name="fakultas" id="fakultas" class="form-control" value="{{ old('fakultas') }}" placeholder="Masukkan Fakultas">
+                @error('fakultas')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <!-- Row untuk input email dan password -->
+            <div class="row">
                 <!-- Email -->
-                <div class="form-group mb-4">
-                    <label for="email" class="form-label" style="font-size: 1.1rem; color: #424242;">Email</label>
-                    <input type="email" name="email" id="email" class="form-control form-control-lg" value="{{ old('email') }}" placeholder="Masukkan Email" style="border-radius: 30px; background-color: #f1f1f1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                <div class="col-half form-group mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="Masukkan Email">
                     @error('email')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
 
                 <!-- Password -->
-                <div class="form-group mb-4">
-                    <label for="password" class="form-label" style="font-size: 1.1rem; color: #424242;">Password</label>
-                    <input type="password" name="password" id="password" class="form-control form-control-lg" placeholder="Masukkan Password" style="border-radius: 30px; background-color: #f1f1f1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                <div class="col-half form-group mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan Password">
                     @error('password')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
+            </div>
 
-                <!-- Submit Button -->
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg" style="padding: 12px 40px; border-radius: 50px; font-size: 1.2rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);">
-                        Simpan
-                    </button>
-                </div>
-            </form>
-        </div>
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                    Simpan
+                </button>
+            </div>
+        </form>
     </div>
 </div>
-
 @endsection

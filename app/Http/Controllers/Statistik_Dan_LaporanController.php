@@ -1,47 +1,20 @@
 <?php
 
-// app/Http/Controllers/StatistikDanLaporanController.php
 namespace App\Http\Controllers;
 
-use App\Models\StatistikSistem;
-use App\Models\mahasiswa;
-use App\Models\dosen;
-use App\Models\jadwal_kosong_dosen;
-use App\Models\feedback_skripsi;
-use App\Models\forum_diskusi;
-use App\Models\ProgresSkripsi;
-use App\Models\PengajuanJudul;
-
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
-class Statistik_Dan_LaporanController extends Controller
+class StatistikController extends Controller
 {
-    public function index()
+    public function statistik()
     {
-        // Mengambil statistik sistem terbaru
-        $statistik = StatistikSistem::first();
+        // Hitung jumlah berdasarkan status
+        $menungguSidang = Mahasiswa::byStatus('menunggu sidang')->count();
+        $lulus = Mahasiswa::byStatus('lulus')->count();
+        $progresSkripsi = Mahasiswa::byStatus('progres skripsi')->count();
 
-        // Menghitung jumlah mahasiswa, dosen, dan jadwal
-        $totalMahasiswa = mahasiswa::count();
-        $totalDosen = dosen::count();
-        $totalJadwal = jadwal_kosong_dosen::count();
-        $totalFeedback = feedback_skripsi::count();
-        $totalForumDiskusi = forum_diskusi::count();
-        $totalProgresSkripsi = ProgresSkripsi::count();
-        $totalPengajuanJudul = PengajuanJudul::count();
-        $totalManajemenSkripsi =  $totalProgresSkripsi + $totalPengajuanJudul;
-
-        // Mengirim data ke view
-        return view('statistik&laporan', compact('statistik', 'totalMahasiswa', 'totalDosen', 'totalJadwal','totalFeedback',
-            'totalForumDiskusi', 'totalPengajuanJudul', 'totalProgresSkripsi', 'totalManajemenSkripsi'));
-    }
-
-    public function generateLaporan(Request $request)
-    {
-        // Mengambil laporan aktivitas mahasiswa dan dosen
-        $aktivitasMahasiswa = Mahasiswa::with('logAktivitas')->get();
-        $aktivitasDosen = Dosen::with('logAktivitas')->get();
-
-        return view('statistik_dan_laporan.laporan', compact('aktivitasMahasiswa', 'aktivitasDosen'));
+        // Kirim data ke view
+        return view('statistik&laporan', compact('menungguSidang', 'lulus', 'progresSkripsi'));
     }
 }
