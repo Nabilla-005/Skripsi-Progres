@@ -51,6 +51,7 @@ Route::resource('LihatStatusJudul', LihatStatusJudulController::class);
 Route::get('/pengajuan/status', [LihatStatusJudulController::class, 'index'])->name('pengajuan.LihatStatusPengajuan');
 Route::get('/pengajuan/download/{id_pengajuan}', [PengajuanController::class, 'download'])->name('pengajuan.download');
 
+
 Route::middleware([Authenticate::class])->group(function () {
     Route::resource('pasien', PasienController::class);    
 });
@@ -96,10 +97,8 @@ Route::middleware(['auth', 'checkRole:mahasiswa'])->group(function () {
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 
-
-
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Route::get('/home', function () {

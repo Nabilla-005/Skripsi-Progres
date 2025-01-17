@@ -27,15 +27,15 @@
                 <td>{{ $pengajuan->deskripsi }}</td>
                 <td>{{ $pengajuan->status }}</td>
                 <td>
-                    <!-- Tombol Download -->
-                    <a href="{{ route('pengajuan.download', $pengajuan->id_pengajuan) }}" class="btn btn-primary">Download</a>
-                </td>
+                <a href="{{ route('pengajuan.download', $pengajuan->id_pengajuan) }}" class="text-primary">Download File</a>
+            </td>
+
                 <td>
                     <!-- Tombol Hapus -->
                     <form action="{{ route('pengajuan.hapus', $pengajuan->id_pengajuan) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengajuan ini?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Batalkan Pengajuan</button>
+                        <button type="submit" class="btn btn-danger">Batalkan</button>
                     </form>
                 </td>
             </tr>

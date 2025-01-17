@@ -36,8 +36,9 @@
                 </select>
             </form>
 
+            <td>
+                <a href="{{ route('pengajuan.download', $pengajuan->id_pengajuan) }}" class="text-primary">Lihat Dokumen</a>
             </td>
-                <td><a href="{{ Storage::url($pengajuan->file_path) }}" target="_blank">Lihat Dokumen</a></td>
             </tr>
             @endforeach
         </tbody>

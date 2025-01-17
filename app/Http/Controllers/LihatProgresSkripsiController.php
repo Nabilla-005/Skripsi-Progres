@@ -137,4 +137,24 @@ class LihatProgresSkripsiController extends Controller
 
         return redirect()->route('ProgresSkripsi.show', $id)->with('success', 'Komentar berhasil diperbarui!');
     }
+
+    public function download($id)
+{
+    // Cari progres berdasarkan ID
+    $progres = ProgresSkripsi::findOrFail($id);
+
+    // Periksa keberadaan file
+    if (!Storage::exists($progres->file_path)) {
+        // Redirect dengan pesan error jika file tidak ditemukan
+        return redirect()->back()->withErrors(['File tidak ditemukan di server.']);
+    }
+
+    // Ambil nama file asli
+    $fileName = basename($progres->file_path);
+
+    // Mengunduh file dari storage dan memberi nama sesuai file asli
+    return response()->download(storage_path("app/{$progres->file_path}"), $fileName);
+}
+
+
 }

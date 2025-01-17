@@ -11,7 +11,7 @@
     <!-- Form Pencarian -->
     <form action="{{ route('LihatProgresSkripsi.index') }}" method="GET" class="mb-4">
         <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Cari Progres" value="{{ request('search') }}">
+            <input type="text" name="search" class="form-control" placeholder="Cari Progres Skripsi" value="{{ request('search') }}">
             <button type="submit" class="btn btn-primary">Cari</button>
         </div>
     </form>
@@ -37,6 +37,7 @@
                     <td>
                     <a href="{{ route('ProgresSkripsi.download', $progres->id_progres) }}" target="_blank">Download File</a>
                 </td>
+
 
                     <td>
                         <form action="{{ route('LihatProgresSkripsi.destroy', $progres->id_progres) }}" method="POST" style="display:inline;" onsubmit="return confirmDeletion();">

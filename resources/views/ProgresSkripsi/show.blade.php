@@ -1,5 +1,13 @@
 @extends('layouts.mylayoutdosen', ['title' => 'Detail Progres Skripsi'])
 @section('content')
+@if($errors->any())
+    <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif
+
 <div class="container">
     <h3>Detail Progres Skripsi</h3>
 
@@ -10,8 +18,8 @@
             <p><strong>Tanggal Upload:</strong> {{ $progres->tanggal_upload }}</p>
             <p><strong>Komentar:</strong> {{ $progres->komentar ?? 'Belum ada komentar.' }}</p>
             <p><strong>File:</strong> 
-                <a href="{{ Storage::url($progres->file_path) }}" target="_blank">Download File</a>
-            </p>
+            <a href="{{ route('ProgresSkripsi.download', $progres->id_progres) }}" target="_blank">Download File</a>
+        </p>
         </div>
     </div>
 

@@ -22,7 +22,7 @@
                 <th>Nama Mahasiswa</th>
                 <th>NIM</th>
                 <th>Tanggal Upload</th>
-                <th>Aksi</th>
+                <th>Detail</th>
             </tr>
         </thead>
         <tbody>
@@ -34,11 +34,6 @@
                     <td>{{ $progres->tanggal_upload }}</td>
                     <td>
                         <a href="{{ route('ProgresSkripsi.show', $progres) }}" class="btn btn-info btn-sm">Detail</a>
-                        <form action="{{ route('ProgresSkripsi.destroy', $progres->id_progres) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                        </form>
                     </td>
                 </tr>
             @empty

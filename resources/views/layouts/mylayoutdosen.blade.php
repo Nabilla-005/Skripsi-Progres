@@ -48,11 +48,11 @@
       <img src="{{asset('assets/img/my-profile-img.jpg')}}" alt="" class="img-fluid rounded-circle">
     </div>
 
-    <a href="index.html" class="logo d-flex align-items-center justify-content-center">
+    <a href="/dosen" class="logo d-flex align-items-center justify-content-center">
       <!-- Uncomment the line below if you also wish to use an image logo -->
       <!-- <img src="assets/img/logo.png" alt=""> -->
       @auth
-      <h1 class="sitename">{{ Auth::user()->name }}</h1>
+      <h1 class="sitename" >{{ Auth::user()->name }}</h1>
       @endauth
     </a>
 
@@ -75,7 +75,7 @@
         <li><a href="/ProgresSkripsi"><i class="bi bi-file-earmark-text navicon"></i> Progres Skripsi</a></li>
         <ul class="navbar-nav ms-auto">
         @auth
-        <li class="dropdown"><a href="#"><span>{{ Auth::user()->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+        <li class="dropdown"><a href="/dosen"><span>{{ Auth::user()->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
                 <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
