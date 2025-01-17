@@ -31,6 +31,7 @@
                     <th>Nama Mahasiswa</th>
                     <th>NIM</th>
                     <th>Tanggal Upload</th>
+                    <th>Komentar</th>
                     <th>Dokumen</th>
                     <th></th>
                 </tr>
@@ -42,6 +43,7 @@
                     <td>{{ $progres->mahasiswa->nama }}</td>
                     <td>{{ $progres->mahasiswa->nim }}</td>
                     <td>{{ $progres->tanggal_upload }}</td>
+                    <td>{{ $progres->komentar }}</td>
                     <td>
                     <a href="{{ route('ProgresSkripsi.download', $progres->id_progres) }}" target="_blank">Download File</a></td>
                     <td>
