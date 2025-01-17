@@ -31,8 +31,8 @@ class Manajemen_Jadwal_DosenController extends Controller
         $request->validate([
             'id_dosen' => 'required|exists:dosens,id_dosen',
             'tanggal' => 'required|date',
-            'waktu_mulai' => 'required|date_format:H:i',
-            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+            'waktu_mulai' => 'required|date_format:H:i:s',  // Menggunakan format H:i:s
+            'waktu_selesai' => 'required|date_format:H:i:s|after:waktu_mulai',
             'status' => 'required|in:tersedia,penuh',
         ]);
 
