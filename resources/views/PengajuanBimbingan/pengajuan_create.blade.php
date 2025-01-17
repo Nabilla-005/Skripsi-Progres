@@ -1,8 +1,9 @@
-@extends('layouts.mylayouts',['title' => 'Mengajukan Jadwal Bimbingan'])
+@extends('layouts.mylayouts', ['title' => 'Mengajukan Jadwal Bimbingan'])
 @section('content')
+<hr class="my-5" />
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title">Pengajuan Jadwal Bimbingan</h3>
+            <h3 class="card-title"><strong>Pengajuan Jadwal Bimbingan</strong></h3>
             <form action="{{ route('PengajuanBimbingan.store') }}" method="POST">
                 @csrf
                 <div class="form-group mt-1 mb-3">
@@ -40,7 +41,7 @@
 
                 <button type="submit" class="btn btn-primary mt-2">Simpan</button>
             </form>
-
         </div>
     </div>
+    <hr class="my-5" />
 @endsection

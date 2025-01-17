@@ -75,11 +75,24 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::middleware(['auth', 'checkRole:mahasiswa'])->group(function () {
 Route::resource('mahasiswa', MahasiswaController::class);
+});
+
+Route::middleware(['auth', 'checkRole:dosen'])->group(function () {
 Route::resource('dosen', DosenController::class);
+});
+
+Route::middleware(['auth', 'checkRole:dosen'])->group(function () {
 Route::resource('JadwalKosongDosen', JadwalKosongController::class);
+});
+
+Route::middleware(['auth', 'checkRole:mahasiswa'])->group(function () {
 Route::resource('LihatJadwalKosong', JadwalKosongLihatController::class);
+});
+
 Route::resource('PengajuanBimbingan', PengajuanBimbinganController::class);
+
 Route::resource('LihatJadwalBimbingan', LihatJadwalBimbinganController::class);
 
 Route::get('/lihat-jadwal-bimbingan', [LihatJadwalBimbinganController::class, 'index'])->name('LihatJadwalBimbingan.index');
