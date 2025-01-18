@@ -1,3 +1,4 @@
+
 @extends('layouts.mylayoutdosen', ['title' => 'Halaman Dosen'])
 
 @section('content')
@@ -71,5 +72,4 @@
   <div id="preloader"></div>
 
 </main>
-
 @endsection

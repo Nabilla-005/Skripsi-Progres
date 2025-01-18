@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Http\Controllers;
@@ -56,7 +57,7 @@ class PengajuanBimbinganController extends Controller
     
         // Flash message dan redirect
         flash('Pengajuan bimbingan berhasil!')->success();
-        return redirect()->route('LihatJadwalBimbingan.create');
+        return redirect()->route('LihatJadwalBimbingan.index');
     }
     
 

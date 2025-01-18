@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,9 +15,6 @@
   <link href="#" rel="apple-touch-icon">
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -29,7 +27,34 @@
 
   <!-- Main CSS File -->
   <link href="{{asset('assets/css/main.css')}}" rel="stylesheet">
+      <!-- Fonts -->
+      <link rel="preconnect" href="{{asset('https://fonts.googleapis.com') }}" />
+    <link rel="preconnect" href="{{asset('https://fonts.gstatic.com') }}" crossorigin />
+    <link
+      href="{{asset('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap') }}"
+      rel="stylesheet"
+    />
+    
 
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/fonts/boxicons.css') }}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{ asset('sneat/assets/css/demo.css') }}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ asset('sneat/assets/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="{{ asset('sneat/assets/vendor/js/helpers.js') }}"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{{ asset('sneat/assets/js/config.js') }}"></script>
   <!-- =======================================================
   * Template Name: iPortfolio
   * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
@@ -48,11 +73,11 @@
       <img src="{{asset('assets/img/my-profile-img.jpg')}}" alt="" class="img-fluid rounded-circle">
     </div>
 
-    <a href="index.html" class="logo d-flex align-items-center justify-content-center">
+    <a href="/dosen" class="logo d-flex align-items-center justify-content-center">
       <!-- Uncomment the line below if you also wish to use an image logo -->
       <!-- <img src="assets/img/logo.png" alt=""> -->
       @auth
-      <h1 class="sitename">{{ Auth::user()->name }}</h1>
+      <h1 class="sitename" >{{ Auth::user()->name }}</h1>
       @endauth
     </a>
 
@@ -60,7 +85,6 @@
       <ul>
         <li><a href="/dosen" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
         <li><a href="/dosen#about"><i class="bi bi-person navicon"></i> Profile</a></li>
-        <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Mahasiswa Bimbingan</a></li>
         <li class="dropdown"><a href="#"><i class="bi bi-menu-button navicon"></i> <span>Pengajuan</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
           <ul>
             <li><a href="/JadwalKosongDosen">Atur Jadwal Kosong</a></li>
@@ -75,7 +99,7 @@
         <li><a href="/ProgresSkripsi"><i class="bi bi-file-earmark-text navicon"></i> Progres Skripsi</a></li>
         <ul class="navbar-nav ms-auto">
         @auth
-        <li class="dropdown"><a href="#"><span>{{ Auth::user()->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+        <li class="dropdown"><a href="/dosen"><span>{{ Auth::user()->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
                 <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -99,7 +123,6 @@
             @yield('content')
         </main>
 
-  
   <!-- Vendor JS Files -->
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
@@ -115,6 +138,27 @@
   <!-- Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
 
-</body>
+  <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="{{ asset('sneat/assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('sneat/assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('sneat/assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
+    <script src="{{ asset('sneat/assets/vendor/js/menu.js') }}"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Main JS -->
+    <script src="{{ asset('sneat/assets/js/main.js') }}"></script>
+
+    <!-- Page JS -->
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+</body>
 </html>

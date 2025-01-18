@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\dosen;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -36,8 +35,6 @@ public function index()
     
     return view('JadwalKosongDosen.dosen_index', $data);
 }
-
-
 
     /**
      * Show the form for creating a new resource.

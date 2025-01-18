@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Models;
@@ -9,15 +10,11 @@ class ProgresSkripsi extends Model
 {
     use HasFactory;
 
-    // Nama tabel di database
-    protected $table = 'progres_skripsis';
+    protected $table = 'progres_skripsis'; // Nama tabel
+    protected $primaryKey = 'id_progres'; // Primary Key
+    public $timestamps = true; // Aktifkan timestamps jika tabel menggunakan created_at dan updated_at
 
-    // Nama primary key tabel
-    protected $primaryKey = 'id_progres';
-
-    // Menonaktifkan timestamps jika tabel tidak memiliki kolom created_at dan updated_at
-    public $timestamps = true;
-
+    
     // Kolom yang boleh diisi secara massal
     protected $fillable = [
         'id_mahasiswa',

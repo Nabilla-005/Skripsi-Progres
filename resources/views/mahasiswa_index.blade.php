@@ -1,3 +1,4 @@
+
 @extends('layouts.mylayouts', ['title' => 'Halaman Mahasiswa'])
 
 @section('content')
@@ -71,5 +72,4 @@
   <div id="preloader"></div>
 
 </main>
-
 @endsection

@@ -1,7 +1,8 @@
+
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\PengajuanJadwalBimbingan; // Pastikan nama model sesuai dengan konvensi
 use App\Models\Mahasiswa; // Model untuk mahasiswa
@@ -16,6 +17,23 @@ class LihatJadwalBimbinganController extends Controller
      */
     public function index(Request $request)
 {
+    // Cek apakah pengguna sudah login
+    if (!Auth::check()) {
+        // Jika pengguna belum login, arahkan ke halaman login
+        return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
+    }
+
+    // Ambil data pengguna yang sedang login
+    $user = Auth::user();
+
+    // Ambil data mahasiswa yang memiliki email yang sama dengan pengguna yang sedang login
+    $mahasiswa = Mahasiswa::where('email', $user->email)->first();
+
+    if (!$mahasiswa) {
+        // Jika tidak ada data mahasiswa yang cocok dengan email user yang login
+        return redirect()->route('home')->withErrors('Data mahasiswa tidak ditemukan!');
+    }
+
     $query = \App\Models\pengajuan_jadwal_bimbingan::with('mahasiswa');
 
     // Cek apakah ada input pencarian
@@ -27,9 +45,15 @@ class LihatJadwalBimbinganController extends Controller
         })->orWhere('status_pengajuan', 'like', "%$search%");
     }
 
-    $data['pengajuan_jadwal_bimbingan'] = $query->latest()->paginate(10)->withQueryString();
+    // Filter berdasarkan mahasiswa yang sedang login
+    $data['pengajuan_jadwal_bimbingan'] = $query->where('id_mahasiswa', $mahasiswa->id_mahasiswa)
+                                                 ->latest()
+                                                 ->paginate(10)
+                                                 ->withQueryString();
+
     return view('PengajuanBimbingan.LihatPengajuan', $data);
 }
+
 
 
     /**

@@ -1,60 +1,53 @@
+
 @extends('mylayout.mainlayout')
 
 @section('content')
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Menambahkan link Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <style>
-    body {
-        background: url('/path/to/your/background.jpg') no-repeat center center fixed;
-        background-size: cover;
-        font-family: 'Arial', sans-serif;
-    }
+   body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
     .container {
-        background-color: rgba(255, 255, 255, 0.9); /* Transparan putih untuk kontras dengan background */
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Efek bayangan */
-        margin-top: 50px; /* Margin atas agar tidak terlalu dekat dengan header */
-    }
+            max-height: 100vh;
+            overflow-y: auto;
+            padding-bottom: 50px;
+        }
 
     table {
-        border-collapse: separate;
-        border-spacing: 0 10px;
-    }
-
-    .table {
-        background-color: rgba(255, 255, 255, 0.8); /* Transparansi putih untuk kontras dengan background gambar */
-        border-radius: 5px;
-        overflow: hidden;
-        transition: max-height 0.3s ease-in-out;
-    }
-
-    /* Untuk tabel agar bisa scroll */
-    .table-responsive {
-        max-height: 400px;  /* Tentukan tinggi maksimum agar bisa di-scroll */
-        overflow-y: auto;   /* Mengaktifkan scroll vertikal */
+        border-collapse: collapse;
+        width: 100%;
     }
 
     .table th,
     .table td {
-        padding: 12px 15px;
+        padding: 20px 50px;
         text-align: center;
+        border: 2px solid black; /* Garis tabel warna hitam */
+    }
+
+    .table th {
+        background-color: rgba(160, 0, 95, 0.8); /* Warna header tabel sesuai permintaan */
+        color: white;
     }
 
     .table-hover tbody tr:hover {
-        background-color: rgba(0, 123, 255, 0.2);
+        background-color: rgba(160, 0, 95, 0.3); /* Hover dengan warna transparan */
     }
 
     .btn {
         border-radius: 5px;
         transition: background-color 0.3s ease;
-        padding: 8px 16px; /* Menambah padding untuk ukuran tombol lebih proporsional */
+        padding: 10px 16px;
         text-align: center;
-        width: auto; /* Menyesuaikan lebar tombol sesuai teks */
+        width: auto;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -62,8 +55,8 @@
 
     /* Tombol dengan warna serasi */
     .btn-success {
-        background-color: #007bff; /* Biru terang */
-        border-color: #007bff;
+        background-color: rgba(160, 0, 95, 0.9);
+        border-color: rgba(160, 0, 95, 0.9);
     }
     
     .btn-primary {
@@ -86,25 +79,31 @@
     }
 
     h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
         font-weight: 600;
-        color: #3a3a3a;
+        color: rgb(160, 0, 95);
     }
 
     /* Tombol "Tambah Mahasiswa" di pojok kanan atas */
     .tambah-btn {
         display: flex;
         justify-content: flex-end;
-        margin-top: 20px;
+        margin-top: 30px;
     }
 
     .btn i {
         margin-right: 8px;
     }
+
+    /* Membatasi tinggi tabel dan menambahkan scroll vertikal */
+    .table-responsive {
+        max-height: 400px; /* Batasi tinggi area tabel */
+        overflow-y: auto; /* Menambahkan scroll vertikal */
+    }
 </style>
 
 <div class="container my-4">
-    <h1 class="text-center mb-4">Daftar Mahasiswa</h1>
+    <h1 class="text-center mb-4">Manajemen Akun Mahasiswa</h1>
 
     <!-- Menampilkan notifikasi sukses -->
     @if(session('success'))
@@ -116,7 +115,7 @@
     <!-- Tabel Daftar Mahasiswa -->
     <div class="table-responsive">
         <table class="table table-striped table-hover">
-            <thead class="table-dark">
+            <thead>
                 <tr>
                     <th scope="col">NIM</th>
                     <th scope="col">Nama</th>

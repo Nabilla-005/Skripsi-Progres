@@ -1,5 +1,8 @@
+
 @extends('layouts.mylayoutdosen', ['title' => 'Tambah Data Jadwal Dosen'])
 @section('content')
+<hr class="my-5" />
+
     <div class="card">
         <div class="card-body">
             <h3 class="card-title">Edit Data Jadwal <b>{{$jadwal_kosong_dosen->dosen->nama}}</b></h3>
@@ -81,4 +84,6 @@
 </script>
         </div>
     </div>
+    <hr class="my-5" />
+
 @endsection

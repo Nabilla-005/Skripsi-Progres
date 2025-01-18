@@ -7,7 +7,6 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request; // Tambahkan import Request jika belum ada
 use Illuminate\Support\Facades\Auth;
 
-
 class LoginController extends Controller
 {
     /*
@@ -58,7 +57,7 @@ class LoginController extends Controller
             return redirect('/dosen'); // Halaman dosen
         }
 
-        return redirect('/home'); // Default redirect
+        return redirect()->route('login'); // Default redirect
     }
     public function logout(Request $request)
     {
