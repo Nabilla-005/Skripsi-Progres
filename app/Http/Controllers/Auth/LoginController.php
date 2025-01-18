@@ -57,7 +57,7 @@ class LoginController extends Controller
             return redirect('/dosen'); // Halaman dosen
         }
 
-        return redirect('/home'); // Default redirect
+        return redirect()->route('login'); // Default redirect
     }
     public function logout(Request $request)
     {

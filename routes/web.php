@@ -31,13 +31,14 @@ use App\Http\Controllers\PengajuanBimbinganController;
 use App\Http\Controllers\LihatJadwalBimbinganController;
 use App\Http\Controllers\ProgresSkripsiController;
 use App\Http\Controllers\LihatProgresSkripsiController;
-
 use App\Http\Controllers\ProfileAdminController;
 use App\Http\Controllers\PasswordController;
+
 
 Route::resource('ProgresSkripsi', ProgresSkripsiController::class);
 Route::post('ProgresSkripsi/{id}/update-komentar', [ProgresSkripsiController::class, 'updateKomentar'])->name('ProgresSkripsi.updateKomentar');
 
+Route::get('/progres-skripsi/download/{id}', [LihatProgresSkripsiController::class, 'download'])->name('ProgresSkripsi.download');
 Route::get('/LihatProgresSkripsi', [LihatProgresSkripsiController::class, 'index'])->name('LihatProgresSkripsi.index');
 Route::delete('/LihatProgresSkripsi/{id}', [LihatProgresSkripsiController::class, 'destroy'])->name('LihatProgresSkripsi.destroy');
 
@@ -46,8 +47,12 @@ Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('p
 Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store');
 Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
 Route::put('/pengajuan/{id_pengajuan}', [PengajuanController::class, 'update'])->name('pengajuan.update');
- 
+Route::delete('/pengajuan/{id_pengajuan}/hapus', [PengajuanController::class, 'destroy'])->name('pengajuan.hapus');
+
 Route::resource('LihatStatusJudul', LihatStatusJudulController::class);
+Route::get('/pengajuan/status', [LihatStatusJudulController::class, 'index'])->name('pengajuan.LihatStatusPengajuan');
+Route::get('/pengajuan/download/{id_pengajuan}', [PengajuanController::class, 'download'])->name('pengajuan.download');
+
 
 Route::middleware([Authenticate::class])->group(function () {
     Route::resource('pasien', PasienController::class);    
@@ -72,12 +77,28 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::middleware(['auth', 'checkRole:mahasiswa'])->group(function () {
 Route::resource('mahasiswa', MahasiswaController::class);
+});
+
+Route::middleware(['auth', 'checkRole:dosen'])->group(function () {
 Route::resource('dosen', DosenController::class);
+});
+
+Route::middleware(['auth', 'checkRole:dosen'])->group(function () {
 Route::resource('JadwalKosongDosen', JadwalKosongController::class);
+});
+
+Route::middleware(['auth', 'checkRole:mahasiswa'])->group(function () {
 Route::resource('LihatJadwalKosong', JadwalKosongLihatController::class);
+});
+
 Route::resource('PengajuanBimbingan', PengajuanBimbinganController::class);
+
 Route::resource('LihatJadwalBimbingan', LihatJadwalBimbinganController::class);
+
+Route::get('/lihat-jadwal-bimbingan', [LihatJadwalBimbinganController::class, 'index'])->name('LihatJadwalBimbingan.index');
+
 
 Route::middleware(['auth', 'checkRole:dosen'])->group(function () {
     Route::resource('dosen', DosenController::class);
@@ -91,10 +112,8 @@ Route::middleware(['auth', 'checkRole:mahasiswa'])->group(function () {
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 
-
-
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Route::get('/home', function () {

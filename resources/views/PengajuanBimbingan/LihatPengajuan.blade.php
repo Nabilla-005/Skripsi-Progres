@@ -1,21 +1,16 @@
 @extends('layouts.mylayouts', ['title' => 'Pengajuan Bimbingan'])
 @section('content')
+<hr class="my-5" />
+
+<!-- Hoverable Table rows -->
 <div class="card">
-    <div class="card-body">
-        <h3>Pengajuan Bimbingan</h3>
-
-        <!-- Form Pencarian -->
-        <form action="{{ route('PengajuanBimbingan.index') }}" method="GET">
-            <div class="input-group mb-3">
-                <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan nama mahasiswa atau nim..." value="{{ request('search') }}">
-                <button type="submit" class="btn btn-primary">Cari</button>
-            </div>
-        </form>
-
-        <table class="table table-striped">
+    <h5 class="card-header"><strong>Jadwal Bimbingan </strong></h5>
+    
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>NO</th>
+                    <th>No</th>
                     <th>Nama Mahasiswa</th>
                     <th>NIM</th>
                     <th>ID Jadwal</th>
@@ -23,16 +18,22 @@
                     <th>Status Pengajuan</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach ($pengajuan_jadwal_bimbingan as $item)
+            <tbody class="table-border-bottom-0">
+            @foreach ($pengajuan_jadwal_bimbingan as $item)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ $loop->iteration }}</strong></td>
                     <td>{{ $item->mahasiswa->nama ?? 'Tidak Ditemukan' }}</td>
                     <td>{{ $item->mahasiswa->nim ?? 'Tidak Ditemukan' }}</td>
                     <td>{{ $item->id_jadwal_kosong }}</td>
                     <td>{{ $item->tanggal_pengajuan }}</td>
-                    <td>{{ $item->status_pengajuan }}</td>
                     <td>
+                        @if ($item->status_pengajuan === 'diterima')
+                        <span class="badge bg-label-success me-1">Diterima</span>
+                        @elseif ($item->status === 'ditolak')
+                        <span class="badge bg-label-warning me-1">Penuh</span>
+                        @else
+                        <span class="badge bg-label-primary me-1">Pending</span>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
@@ -41,4 +42,7 @@
         {!! $pengajuan_jadwal_bimbingan->links() !!}
     </div>
 </div>
+<!--/ Hoverable Table rows -->
+
+<hr class="my-5" />
 @endsection

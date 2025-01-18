@@ -50,10 +50,31 @@ class LihatStatusJudulController extends Controller
      * Menampilkan daftar pengajuan judul.
      */
     public function index()
-    {
-        $pengajuans = PengajuanJudul::all();
-        return view('pengajuan.LihatStatusPengajuan', compact('pengajuans'));
+{
+    // Cek apakah pengguna sudah login
+    if (!Auth::check()) {
+        // Jika pengguna belum login, arahkan ke halaman login
+        return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
     }
+
+    // Ambil data pengguna yang sedang login
+    $user = Auth::user();
+
+    // Ambil data mahasiswa yang memiliki email yang sama dengan pengguna yang sedang login
+    $mahasiswa = Mahasiswa::where('email', $user->email)->first();
+
+    if (!$mahasiswa) {
+        // Jika tidak ada data mahasiswa yang cocok dengan email user yang login
+        return redirect()->route('home')->withErrors('Data mahasiswa tidak ditemukan!');
+    }
+
+    // Ambil pengajuan berdasarkan id_mahasiswa yang cocok dengan mahasiswa yang sedang login
+    $pengajuans = PengajuanJudul::where('id_mahasiswa', $mahasiswa->id_mahasiswa)->get();
+
+    return view('pengajuan.LihatStatusPengajuan', compact('pengajuans'));
+}
+
+
 
     public function update(Request $request, $id_pengajuan)
     {
